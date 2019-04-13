@@ -5,10 +5,7 @@ using System.Web;
 
 namespace Repository.Models
 {
-    public class SubTask : ArtifactProperty
+    public class SubTask : Property
     {
-        public int Id { get; set; }
-        public string SubTaskName { get; set; }
-        public string SubTaskDescription { get; set; }
     }
 }

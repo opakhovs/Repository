@@ -7,7 +7,6 @@ namespace Repository.Models
 {
     public class Tag : ArtifactProperty
     {
-        public string TagName { get; set; }
         public int TagUsage { get; set; }
     }
 }
