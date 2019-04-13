@@ -19,6 +19,11 @@ namespace Repository
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             Database.SetInitializer(new DropCreateDatabaseIfModelChanges<RepositoryContext>());
+
+            using(RepositoryContext context = new RepositoryContext())
+            {
+                context.ProblemDomains.Add(new ProblemDomain() { Name = "Lolkek", Description = "Lolkek description" });
+            }
         }
     }
 }

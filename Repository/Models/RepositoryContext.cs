@@ -11,6 +11,7 @@ namespace Repository.Models
         public RepositoryContext() : base("DbConnection") { }
 
         public DbSet<Artifact> Artifacts { get; set; }
+        public DbSet<ArtifactProperty> ArtifactProperties { get; set; }
         public DbSet<ArtType> ArtTypes { get; set; }
         public DbSet<ProblemDomain> ProblemDomains { get; set; }
         public DbSet<SubTask> SubTasks { get; set; }
