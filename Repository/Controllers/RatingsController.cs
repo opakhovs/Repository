@@ -18,7 +18,7 @@ namespace Repository.Controllers
         // GET: Ratings
         public async Task<ActionResult> Index()
         {
-            return View(await db.ArtifactProperties.ToListAsync());
+            return View(await db.Ratings.ToListAsync());
         }
 
         // GET: Ratings/Details/5
@@ -28,7 +28,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Rating rating = await db.ArtifactProperties.FindAsync(id);
+            Rating rating = await db.Ratings.FindAsync(id);
             if (rating == null)
             {
                 return HttpNotFound();
@@ -66,7 +66,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Rating rating = await db.ArtifactProperties.FindAsync(id);
+            Rating rating = await db.Ratings.FindAsync(id);
             if (rating == null)
             {
                 return HttpNotFound();
@@ -97,7 +97,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Rating rating = await db.ArtifactProperties.FindAsync(id);
+            Rating rating = await db.Ratings.FindAsync(id);
             if (rating == null)
             {
                 return HttpNotFound();
@@ -110,7 +110,7 @@ namespace Repository.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Rating rating = await db.ArtifactProperties.FindAsync(id);
+            Rating rating = await db.Ratings.FindAsync(id);
             db.ArtifactProperties.Remove(rating);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");

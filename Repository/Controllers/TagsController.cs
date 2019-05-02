@@ -18,7 +18,7 @@ namespace Repository.Controllers
         // GET: Tags
         public async Task<ActionResult> Index()
         {
-            return View(await db.ArtifactProperties.ToListAsync());
+            return View(await db.Tags.ToListAsync());
         }
 
         // GET: Tags/Details/5
@@ -28,7 +28,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tag tag = await db.ArtifactProperties.FindAsync(id);
+            Tag tag = await db.Tags.FindAsync(id);
             if (tag == null)
             {
                 return HttpNotFound();
@@ -66,7 +66,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tag tag = await db.ArtifactProperties.FindAsync(id);
+            Tag tag = await db.Tags.FindAsync(id);
             if (tag == null)
             {
                 return HttpNotFound();
@@ -97,7 +97,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tag tag = await db.ArtifactProperties.FindAsync(id);
+            Tag tag = await db.Tags.FindAsync(id);
             if (tag == null)
             {
                 return HttpNotFound();
@@ -110,7 +110,7 @@ namespace Repository.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Tag tag = await db.ArtifactProperties.FindAsync(id);
+            Tag tag = await db.Tags.FindAsync(id);
             db.ArtifactProperties.Remove(tag);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
