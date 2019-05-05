@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Repository.Models.Artifact>
+﻿@model Repository.Viewmodels.ArtifactsViewModels.IndexViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -6,34 +6,41 @@
 
 <h2>Index</h2>
 
+@Html.ListBox("ArtTypeId", Model.ArtTypes, new { size = 4 })
+@Html.ListBox("ProblemDomainId", Model.ProblemDomains, new { size = 4 })
+@Html.ListBox("ProjectId", Model.Projects, new { size = 4 })
+@Html.ListBox("RatingId", Model.Ratings, new { size = 4 })
+@Html.ListBox("SubTaskId", Model.SubTasks, new { size = 4 })
+@Html.ListBox("TagId", Model.Tags, new { size = 4 })
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.DateOfAdding)
+            @Html.DisplayNameFor(model => model.Artifacts.FirstOrDefault().DateOfAdding)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Version)
+            @Html.DisplayNameFor(model => model.Artifacts.FirstOrDefault().Version)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateOfAdding)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Version)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ArtifactId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ArtifactId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ArtifactId })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model.Artifacts)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfAdding)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Version)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ArtifactId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ArtifactId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ArtifactId })
+            </td>
+        </tr>
+    }
 
 </table>

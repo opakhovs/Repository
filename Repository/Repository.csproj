@@ -172,7 +172,9 @@
     <Compile Include="Repositories\Interfaces\ISubTaskRepository.cs" />
     <Compile Include="Repositories\Interfaces\ITagRepository.cs" />
     <Compile Include="Repositories\SQLContext.cs" />
+    <Compile Include="Viewmodels\ArtifactsViewModels\ArtifactViewModel.cs" />
     <Compile Include="Viewmodels\ArtifactsViewModels\CreateViewModel.cs" />
+    <Compile Include="Viewmodels\ArtifactsViewModels\IndexViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Antlr3.Runtime.dll" />
