@@ -11,19 +11,94 @@ using Repository.Models;
 using Repository.Repositories.Interfaces;
 using Repository.Repositories.Implementations;
 using Repository.Viewmodels.ArtifactsViewModels;
+using Repository.Repositories;
 
 namespace Repository.Controllers
 {
     public class ArtifactsController : Controller
     {
-        private IArtifactRepository db = new ArtifactRepository(new Repositories.SQLContext());
+        private SQLContext context = new SQLContext();
+        private IArtifactRepository artifactRep;
+        private IArtTypeRepository artTypeRep;
+        private IProblemDomainRepository problemDomainRep;
+        private IProjectRepository projectRep;
+        private IRatingRepository raitingRep;
+        private ISubTaskRepository subTaskRep;
+        private ITagRepository tagRepository;
+
+        public ArtifactsController()
+        {
+            artifactRep = new ArtifactRepository(context);
+            artTypeRep = new ArtTypeRepository(context);
+            problemDomainRep = new ProblemDomainRepository(context);
+            projectRep = new ProjectRepository(context);
+            raitingRep = new RatingRepository(context);
+            subTaskRep = new SubTaskRepository(context);
+            tagRepository = new TagRepository(context);
+        }
 
         // GET: Artifacts
         public async Task<ActionResult> Index()
         {
-            return View(db.GetAll());
+            IndexViewModel viewModel = new IndexViewModel();
+            List<ArtifactViewModel> listForViewModel = new List<ArtifactViewModel>();
+
+            InitializeIndexViewModelForSearch(viewModel);
+
+            foreach (var x in artifactRep.GetAll())
+            {
+                listForViewModel.Add(new ArtifactViewModel() { ArtifactId = x.ArtifactId, DateOfAdding = x.DateOfAdding, Version = x.Version });
+            }
+
+            viewModel.Artifacts = listForViewModel;
+
+            return View(viewModel);
         }
 
+        private void InitializeIndexViewModelForSearch(IndexViewModel viewModel)
+        {
+            var artTypes = artTypeRep.GetAll().Select(c => new
+            {
+                ArtTypeId = c.Id,
+                ArtTypeName = c.Name
+            }).ToList();
+            viewModel.ArtTypes = new MultiSelectList(artTypes, "ArtTypeId", "ArtTypeName");
+
+            var problemDomains = problemDomainRep.GetAll().Select(c => new
+            {
+                ProblemDomainId = c.Id,
+                ProblemDomainName = c.Name
+            }).ToList();
+            viewModel.ProblemDomains = new MultiSelectList(problemDomains, "ProblemDomainId", "ProblemDomainName");
+
+            var projects = projectRep.GetAll().Select(c => new
+            {
+                ProjectsId = c.Id,
+                ProjectName = c.Name
+            }).ToList();
+            viewModel.Projects = new MultiSelectList(projects, "ProjectId", "ProjectName");
+
+            var ratings = raitingRep.GetAll().Select(c => new
+            {
+                RatingId = c.Id,
+                RatingName = c.Name
+            }).ToList();
+            viewModel.Ratings = new MultiSelectList(ratings, "RatingId", "RatingName");
+
+            var subTasks = subTaskRep.GetAll().Select(c => new
+            {
+                SubTaskId = c.Id,
+                SubTaskName = c.Name
+            }).ToList();
+            viewModel.SubTasks = new MultiSelectList(subTasks, "SubTaskId", "SubTaskName");
+
+            var tags = tagRepository.GetAll().Select(c => new
+            {
+                TagId = c.Id,
+                TagName = c.Name
+            }).ToList();
+            viewModel.Tags = new MultiSelectList(tags, "TagId", "TagName");
+        }
         // GET: Artifacts/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -31,7 +106,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Artifact artifact = db.GetById(id);
+            Artifact artifact = artifactRep.GetById(id);
             if (artifact == null)
             {
                 return HttpNotFound();
@@ -55,8 +130,8 @@ namespace Repository.Controllers
             if (ModelState.IsValid)
             {
                 Artifact artifact = new Artifact() { Version = viewModel.Version, DateOfAdding = viewModel.DateOfAdding };
-                db.Add(artifact);
-                db.Save();
+                artifactRep.Add(artifact);
+                artifactRep.Save();
                 return RedirectToAction("Index");
             }
 
@@ -70,7 +145,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Artifact artifact = db.GetById(id);
+            Artifact artifact = artifactRep.GetById(id);
             if (artifact == null)
             {
                 return HttpNotFound();
@@ -87,8 +162,8 @@ namespace Repository.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Update(artifact);
-                db.Save();
+                artifactRep.Update(artifact);
+                artifactRep.Save();
                 return RedirectToAction("Index");
             }
             return View(artifact);
@@ -101,7 +176,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Artifact artifact = db.GetById(id);
+            Artifact artifact = artifactRep.GetById(id);
             if (artifact == null)
             {
                 return HttpNotFound();
@@ -114,8 +189,8 @@ namespace Repository.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            db.Delete(id);
-            db.Save();
+            artifactRep.Delete(id);
+            artifactRep.Save();
             return RedirectToAction("Index");
         }
 
@@ -123,7 +198,7 @@ namespace Repository.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                artifactRep.Dispose();
             }
             base.Dispose(disposing);
         }
