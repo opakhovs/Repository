@@ -8,7 +8,7 @@ namespace Repository.Viewmodels.ArtifactsViewModels
 {
     public class CreateViewModel
     {
-        [Required, Display(Name ="Date of adding")]
+        [Required, Display(Name ="Date of adding"), DataType(DataType.Date)]
         public DateTime DateOfAdding { get; set; }
         [Required, Display(Name ="Version")]
         public string Version { get; set; }
