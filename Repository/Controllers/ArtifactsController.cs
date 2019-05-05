@@ -42,7 +42,7 @@ namespace Repository.Controllers
         // GET: Artifacts/Create
         public ActionResult Create()
         {
-            return View();
+            return View(new CreateViewModel());
         }
 
         // POST: Artifacts/Create
