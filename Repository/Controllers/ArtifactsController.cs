@@ -73,7 +73,7 @@ namespace Repository.Controllers
 
             var projects = projectRep.GetAll().Select(c => new
             {
-                ProjectsId = c.Id,
+                ProjectId = c.Id,
                 ProjectName = c.Name
             }).ToList();
             viewModel.Projects = new MultiSelectList(projects, "ProjectId", "ProjectName");
