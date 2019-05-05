@@ -8,17 +8,19 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Repository.Models;
+using Repository.Repositories.Interfaces;
+using Repository.Repositories.Implementations;
 
 namespace Repository.Controllers
 {
     public class ProjectsController : Controller
     {
-        private RepositoryContext db = new RepositoryContext();
+        private IProjectRepository db = new ProjectRepository(new Repositories.SQLContext());
 
         // GET: Projects
         public async Task<ActionResult> Index()
         {
-            return View(await db.Projects.ToListAsync());
+            return View(db.GetAll());
         }
 
         // GET: Projects/Details/5
@@ -28,7 +30,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = await db.Projects.FindAsync(id);
+            Project project = db.GetById(id);
             if (project == null)
             {
                 return HttpNotFound();
@@ -51,8 +53,8 @@ namespace Repository.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.ArtifactProperties.Add(project);
-                await db.SaveChangesAsync();
+                db.Add(project);
+                db.Save();
                 return RedirectToAction("Index");
             }
 
@@ -66,7 +68,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = await db.Projects.FindAsync(id);
+            Project project = db.GetById(id);
             if (project == null)
             {
                 return HttpNotFound();
@@ -83,8 +85,8 @@ namespace Repository.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(project).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                db.Update(project);
+                db.Save();
                 return RedirectToAction("Index");
             }
             return View(project);
@@ -97,7 +99,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = await db.Projects.FindAsync(id);
+            Project project = db.GetById(id);
             if (project == null)
             {
                 return HttpNotFound();
@@ -110,9 +112,8 @@ namespace Repository.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Project project = await db.Projects.FindAsync(id);
-            db.ArtifactProperties.Remove(project);
-            await db.SaveChangesAsync();
+            db.Delete(id);
+            db.Save();
             return RedirectToAction("Index");
         }
 

@@ -8,17 +8,20 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Repository.Models;
+using Repository.Repositories.Interfaces;
+using Repository.Repositories.Implementations;
+using Repository.Viewmodels.ArtifactsViewModels;
 
 namespace Repository.Controllers
 {
     public class ArtifactsController : Controller
     {
-        private RepositoryContext db = new RepositoryContext();
+        private IArtifactRepository db = new ArtifactRepository(new Repositories.SQLContext());
 
         // GET: Artifacts
         public async Task<ActionResult> Index()
         {
-            return View(await db.Artifacts.ToListAsync());
+            return View(db.GetAll());
         }
 
         // GET: Artifacts/Details/5
@@ -28,7 +31,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Artifact artifact = await db.Artifacts.FindAsync(id);
+            Artifact artifact = db.GetById(id);
             if (artifact == null)
             {
                 return HttpNotFound();
@@ -47,16 +50,17 @@ namespace Repository.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ArtifactId,DateOfAdding,Version")] Artifact artifact)
+        public async Task<ActionResult> Create([Bind(Include = "DateOfAdding,Version")] CreateViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                db.Artifacts.Add(artifact);
-                await db.SaveChangesAsync();
+                Artifact artifact = new Artifact() { Version = viewModel.Version, DateOfAdding = viewModel.DateOfAdding };
+                db.Add(artifact);
+                db.Save();
                 return RedirectToAction("Index");
             }
 
-            return View(artifact);
+            return View(viewModel);
         }
 
         // GET: Artifacts/Edit/5
@@ -66,7 +70,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Artifact artifact = await db.Artifacts.FindAsync(id);
+            Artifact artifact = db.GetById(id);
             if (artifact == null)
             {
                 return HttpNotFound();
@@ -83,8 +87,8 @@ namespace Repository.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(artifact).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                db.Update(artifact);
+                db.Save();
                 return RedirectToAction("Index");
             }
             return View(artifact);
@@ -97,7 +101,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Artifact artifact = await db.Artifacts.FindAsync(id);
+            Artifact artifact = db.GetById(id);
             if (artifact == null)
             {
                 return HttpNotFound();
@@ -110,9 +114,8 @@ namespace Repository.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Artifact artifact = await db.Artifacts.FindAsync(id);
-            db.Artifacts.Remove(artifact);
-            await db.SaveChangesAsync();
+            db.Delete(id);
+            db.Save();
             return RedirectToAction("Index");
         }
 

@@ -8,17 +8,19 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Repository.Models;
+using Repository.Repositories.Interfaces;
+using Repository.Repositories.Implementations;
 
 namespace Repository.Controllers
 {
     public class ProblemDomainsController : Controller
     {
-        private RepositoryContext db = new RepositoryContext();
+        private IProblemDomainRepository db = new ProblemDomainRepository(new Repositories.SQLContext());
 
         // GET: ProblemDomains
         public async Task<ActionResult> Index()
         {
-            return View(await db.ProblemDomains.ToListAsync());
+            return View(db.GetAll());
         }
 
         // GET: ProblemDomains/Details/5
@@ -28,7 +30,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProblemDomain problemDomain = await db.ProblemDomains.FindAsync(id);
+            ProblemDomain problemDomain = db.GetById(id);
             if (problemDomain == null)
             {
                 return HttpNotFound();
@@ -51,8 +53,8 @@ namespace Repository.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.ArtifactProperties.Add(problemDomain);
-                await db.SaveChangesAsync();
+                db.Add(problemDomain);
+                db.Save();
                 return RedirectToAction("Index");
             }
 
@@ -66,7 +68,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProblemDomain problemDomain = await db.ProblemDomains.FindAsync(id);
+            ProblemDomain problemDomain = db.GetById(id);
             if (problemDomain == null)
             {
                 return HttpNotFound();
@@ -83,8 +85,8 @@ namespace Repository.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(problemDomain).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                db.Update(problemDomain);
+                db.Save();
                 return RedirectToAction("Index");
             }
             return View(problemDomain);
@@ -97,7 +99,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProblemDomain problemDomain = await db.ProblemDomains.FindAsync(id);
+            ProblemDomain problemDomain = db.GetById(id);
             if (problemDomain == null)
             {
                 return HttpNotFound();
@@ -110,9 +112,8 @@ namespace Repository.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            ProblemDomain problemDomain = await db.ProblemDomains.FindAsync(id);
-            db.ArtifactProperties.Remove(problemDomain);
-            await db.SaveChangesAsync();
+            db.Delete(id);
+            db.Save();
             return RedirectToAction("Index");
         }
 

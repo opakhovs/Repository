@@ -8,17 +8,19 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Repository.Models;
+using Repository.Repositories.Interfaces;
+using Repository.Repositories.Implementations;
 
 namespace Repository.Controllers
 {
     public class RatingsController : Controller
     {
-        private RepositoryContext db = new RepositoryContext();
+        private IRatingRepository db = new RatingRepository(new Repositories.SQLContext());
 
         // GET: Ratings
         public async Task<ActionResult> Index()
         {
-            return View(await db.Ratings.ToListAsync());
+            return View(db.GetAll());
         }
 
         // GET: Ratings/Details/5
@@ -28,7 +30,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Rating rating = await db.Ratings.FindAsync(id);
+            Rating rating = db.GetById(id);
             if (rating == null)
             {
                 return HttpNotFound();
@@ -51,8 +53,8 @@ namespace Repository.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.ArtifactProperties.Add(rating);
-                await db.SaveChangesAsync();
+                db.Add(rating);
+                db.Save();
                 return RedirectToAction("Index");
             }
 
@@ -66,7 +68,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Rating rating = await db.Ratings.FindAsync(id);
+            Rating rating = db.GetById(id);
             if (rating == null)
             {
                 return HttpNotFound();
@@ -83,8 +85,8 @@ namespace Repository.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(rating).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                db.Update(rating);
+                db.Save();
                 return RedirectToAction("Index");
             }
             return View(rating);
@@ -97,7 +99,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Rating rating = await db.Ratings.FindAsync(id);
+            Rating rating = db.GetById(id);
             if (rating == null)
             {
                 return HttpNotFound();
@@ -110,9 +112,8 @@ namespace Repository.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Rating rating = await db.Ratings.FindAsync(id);
-            db.ArtifactProperties.Remove(rating);
-            await db.SaveChangesAsync();
+            db.Delete(id);
+            db.Save();
             return RedirectToAction("Index");
         }
 

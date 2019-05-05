@@ -1,4 +1,5 @@
 ﻿using Repository.Models;
+using Repository.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -18,12 +19,7 @@ namespace Repository
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<RepositoryContext>());
-
-            using(RepositoryContext context = new RepositoryContext())
-            {
-                context.ProblemDomains.Add(new ProblemDomain() { Name = "Lolkek", Description = "Lolkek description" });
-            }
+            Database.SetInitializer(new DropCreateDatabaseAlways<SQLContext>());
         }
     }
 }

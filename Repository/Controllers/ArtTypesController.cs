@@ -8,17 +8,19 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Repository.Models;
+using Repository.Repositories.Interfaces;
+using Repository.Repositories.Implementations;
 
 namespace Repository.Controllers
 {
     public class ArtTypesController : Controller
     {
-        private RepositoryContext db = new RepositoryContext();
+        private IArtTypeRepository db = new ArtTypeRepository(new Repositories.SQLContext());
 
         // GET: ArtTypes
         public async Task<ActionResult> Index()
         {
-            return View(await db.ArtTypes.ToListAsync());
+            return View(db.GetAll());
         }
 
         // GET: ArtTypes/Details/5
@@ -28,7 +30,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ArtType artType = await db.ArtTypes.FindAsync(id);
+            ArtType artType = db.GetById(id);
             if (artType == null)
             {
                 return HttpNotFound();
@@ -51,8 +53,8 @@ namespace Repository.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.ArtifactProperties.Add(artType);
-                await db.SaveChangesAsync();
+                db.Add(artType);
+                db.Save();
                 return RedirectToAction("Index");
             }
 
@@ -66,7 +68,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ArtType artType = await db.ArtTypes.FindAsync(id);
+            ArtType artType = db.GetById(id);
             if (artType == null)
             {
                 return HttpNotFound();
@@ -83,8 +85,8 @@ namespace Repository.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(artType).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                db.Update(artType);
+                db.Save();
                 return RedirectToAction("Index");
             }
             return View(artType);
@@ -97,7 +99,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ArtType artType = await db.ArtTypes.FindAsync(id);
+            ArtType artType = db.GetById(id);
             if (artType == null)
             {
                 return HttpNotFound();
@@ -110,9 +112,9 @@ namespace Repository.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            ArtType artType = await db.ArtTypes.FindAsync(id);
-            db.ArtifactProperties.Remove(artType);
-            await db.SaveChangesAsync();
+            ArtType artType = db.GetById(id);
+            db.Delete(id);
+            db.Save();
             return RedirectToAction("Index");
         }
 

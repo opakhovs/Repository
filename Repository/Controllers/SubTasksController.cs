@@ -8,17 +8,19 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Repository.Models;
+using Repository.Repositories.Interfaces;
+using Repository.Repositories.Implementations;
 
 namespace Repository.Controllers
 {
     public class SubTasksController : Controller
     {
-        private RepositoryContext db = new RepositoryContext();
+        private ISubTaskRepository db = new SubTaskRepository(new Repositories.SQLContext());
 
         // GET: SubTasks
         public async Task<ActionResult> Index()
         {
-            return View(await db.SubTasks.ToListAsync());
+            return View(db.GetAll());
         }
 
         // GET: SubTasks/Details/5
@@ -28,7 +30,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SubTask subTask = await db.SubTasks.FindAsync(id);
+            SubTask subTask = db.GetById(id);
             if (subTask == null)
             {
                 return HttpNotFound();
@@ -51,8 +53,8 @@ namespace Repository.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.SubTasks.Add(subTask);
-                await db.SaveChangesAsync();
+                db.Add(subTask);
+                db.Save();
                 return RedirectToAction("Index");
             }
 
@@ -66,7 +68,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SubTask subTask = await db.SubTasks.FindAsync(id);
+            SubTask subTask = db.GetById(id);
             if (subTask == null)
             {
                 return HttpNotFound();
@@ -83,8 +85,8 @@ namespace Repository.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(subTask).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                db.Update(subTask);
+                db.Save();
                 return RedirectToAction("Index");
             }
             return View(subTask);
@@ -97,7 +99,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SubTask subTask = await db.SubTasks.FindAsync(id);
+            SubTask subTask = db.GetById(id);
             if (subTask == null)
             {
                 return HttpNotFound();
@@ -110,9 +112,8 @@ namespace Repository.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            SubTask subTask = await db.SubTasks.FindAsync(id);
-            db.SubTasks.Remove(subTask);
-            await db.SaveChangesAsync();
+            db.Delete(id);
+            db.Save();
             return RedirectToAction("Index");
         }
 

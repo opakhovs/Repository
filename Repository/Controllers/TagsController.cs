@@ -8,17 +8,19 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Repository.Models;
+using Repository.Repositories.Interfaces;
+using Repository.Repositories.Implementations;
 
 namespace Repository.Controllers
 {
     public class TagsController : Controller
     {
-        private RepositoryContext db = new RepositoryContext();
+        private ITagRepository db = new TagRepository(new Repositories.SQLContext());
 
         // GET: Tags
         public async Task<ActionResult> Index()
         {
-            return View(await db.Tags.ToListAsync());
+            return View(db.GetAll());
         }
 
         // GET: Tags/Details/5
@@ -28,7 +30,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tag tag = await db.Tags.FindAsync(id);
+            Tag tag = db.GetById(id);
             if (tag == null)
             {
                 return HttpNotFound();
@@ -51,8 +53,8 @@ namespace Repository.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.ArtifactProperties.Add(tag);
-                await db.SaveChangesAsync();
+                db.Add(tag);
+                db.Save();
                 return RedirectToAction("Index");
             }
 
@@ -66,7 +68,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tag tag = await db.Tags.FindAsync(id);
+            Tag tag = db.GetById(id);
             if (tag == null)
             {
                 return HttpNotFound();
@@ -83,8 +85,8 @@ namespace Repository.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(tag).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                db.Update(tag);
+                db.Save();
                 return RedirectToAction("Index");
             }
             return View(tag);
@@ -97,7 +99,7 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tag tag = await db.Tags.FindAsync(id);
+            Tag tag = db.GetById(id);
             if (tag == null)
             {
                 return HttpNotFound();
@@ -110,9 +112,8 @@ namespace Repository.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Tag tag = await db.Tags.FindAsync(id);
-            db.ArtifactProperties.Remove(tag);
-            await db.SaveChangesAsync();
+            db.Delete(id);
+            db.Save();
             return RedirectToAction("Index");
         }
 

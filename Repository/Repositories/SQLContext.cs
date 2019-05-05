@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Repository.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
-namespace Repository.Models
+namespace Repository.Repositories
 {
-    public class RepositoryContext : DbContext
+    public class SQLContext:DbContext
     {
-        public RepositoryContext() : base("DbConnection") { }
+        public SQLContext() : base("DbConnection") { }
 
         public DbSet<Artifact> Artifacts { get; set; }
         public DbSet<ArtifactProperty> ArtifactProperties { get; set; }
