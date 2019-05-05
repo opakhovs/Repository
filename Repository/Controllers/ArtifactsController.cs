@@ -117,7 +117,50 @@ namespace Repository.Controllers
         // GET: Artifacts/Create
         public ActionResult Create()
         {
-            return View(new CreateViewModel());
+            CreateViewModel viewModel = new CreateViewModel();
+            var artTypes = artTypeRep.GetAll().Select(c => new
+            {
+                ArtTypeId = c.Id,
+                ArtTypeName = c.Name
+            }).ToList();
+            viewModel.Types = new MultiSelectList(artTypes, "ArtTypeId", "ArtTypeName");
+
+            var problemDomains = problemDomainRep.GetAll().Select(c => new
+            {
+                ProblemDomainId = c.Id,
+                ProblemDomainName = c.Name
+            }).ToList();
+            viewModel.Domains = new MultiSelectList(problemDomains, "ProblemDomainId", "ProblemDomainName");
+
+            var projects = projectRep.GetAll().Select(c => new
+            {
+                ProjectId = c.Id,
+                ProjectName = c.Name
+            }).ToList();
+            viewModel.Projects = new MultiSelectList(projects, "ProjectId", "ProjectName");
+
+            var ratings = raitingRep.GetAll().Select(c => new
+            {
+                RatingId = c.Id,
+                RatingName = c.Name
+            }).ToList();
+            viewModel.Ratings = new MultiSelectList(ratings, "RatingId", "RatingName");
+
+            var subTasks = subTaskRep.GetAll().Select(c => new
+            {
+                SubTaskId = c.Id,
+                SubTaskName = c.Name
+            }).ToList();
+            viewModel.SubTasks = new MultiSelectList(subTasks, "SubTaskId", "SubTaskName");
+
+            var tags = tagRepository.GetAll().Select(c => new
+            {
+                TagId = c.Id,
+                TagName = c.Name
+            }).ToList();
+            viewModel.Tags = new MultiSelectList(tags, "TagId", "TagName");
+
+            return View(viewModel);
         }
 
         // POST: Artifacts/Create

@@ -18,16 +18,19 @@ namespace Repository.Viewmodels.ArtifactsViewModels
         public IEnumerable<SelectListItem> Types { get; set; } = new List<SelectListItem>();
 
         public string[] Rating { get; set; }
-        public IEnumerable<SelectListItem> Ratings { get; set; } = new List<SelectListItem>();
+        public MultiSelectList Ratings { get; set; }
 
         public string[] Tag { get; set; }
-        public IEnumerable<SelectListItem> Tags { get; set; } = new List<SelectListItem>();
+        public MultiSelectList Tags { get; set; } 
 
         public string[] Project { get; set; }
-        public IEnumerable<SelectListItem> Projects { get; set; } = new List<SelectListItem>();
+        public MultiSelectList Projects { get; set; } 
 
         public string[] Domain { get; set; }
-        public IEnumerable<SelectListItem> Domains { get; set; } = new List<SelectListItem>();
+        public MultiSelectList Domains { get; set; }
+
+        public string[] SubTask { get; set; }
+        public MultiSelectList SubTasks { get; set; }
 
     }
 }
