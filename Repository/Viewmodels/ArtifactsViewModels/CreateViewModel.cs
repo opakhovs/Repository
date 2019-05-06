@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Repository.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,23 +15,23 @@ namespace Repository.Viewmodels.ArtifactsViewModels
         [Required, Display(Name ="Version")]
         public string Version { get; set; }
         [Required, Display(Name ="Type")]
-        public string ArtifactType { get; set; }
-        public IEnumerable<SelectListItem> Types { get; set; } = new List<SelectListItem>();
+        public int ArtifactTypeId { get; set; }
+        public List<ArtType> Types { get; set; }
 
-        public string[] Rating { get; set; }
-        public MultiSelectList Ratings { get; set; }
+        public int[] RatingIds { get; set; }
+        public List<Rating> Ratings { get; set; }
 
-        public string[] Tag { get; set; }
-        public MultiSelectList Tags { get; set; } 
+        public int[] TagIds { get; set; }
+        public List<Tag> Tags { get; set; } 
 
-        public string[] Project { get; set; }
-        public MultiSelectList Projects { get; set; } 
+        public int[] ProjectIds { get; set; }
+        public List<Project> Projects { get; set; } 
 
-        public string[] Domain { get; set; }
-        public MultiSelectList Domains { get; set; }
+        public int[] DomainIds { get; set; }
+        public List<ProblemDomain> Domains { get; set; }
 
-        public string[] SubTask { get; set; }
-        public MultiSelectList SubTasks { get; set; }
+        public int[] SubTaskIds { get; set; }
+        public List<SubTask> SubTasks { get; set; }
 
     }
 }

@@ -118,47 +118,47 @@ namespace Repository.Controllers
         public ActionResult Create()
         {
             CreateViewModel viewModel = new CreateViewModel();
-            var artTypes = artTypeRep.GetAll().Select(c => new
+            var artTypes = artTypeRep.GetAll().Select(c => new ArtType
             {
-                ArtTypeId = c.Id,
-                ArtTypeName = c.Name
+                Id = c.Id,
+                Name = c.Name
             }).ToList();
-            viewModel.Types = new MultiSelectList(artTypes, "ArtTypeId", "ArtTypeName");
+            viewModel.Types = artTypes;
 
-            var problemDomains = problemDomainRep.GetAll().Select(c => new
+            var problemDomains = problemDomainRep.GetAll().Select(c => new ProblemDomain
             {
-                ProblemDomainId = c.Id,
-                ProblemDomainName = c.Name
+                Id = c.Id,
+                Name = c.Name
             }).ToList();
-            viewModel.Domains = new MultiSelectList(problemDomains, "ProblemDomainId", "ProblemDomainName");
+            viewModel.Domains = problemDomains;
 
-            var projects = projectRep.GetAll().Select(c => new
+            var projects = projectRep.GetAll().Select(c => new Project
             {
-                ProjectId = c.Id,
-                ProjectName = c.Name
+                Id = c.Id,
+                Name = c.Name
             }).ToList();
-            viewModel.Projects = new MultiSelectList(projects, "ProjectId", "ProjectName");
+            viewModel.Projects = projects;
 
-            var ratings = raitingRep.GetAll().Select(c => new
+            var ratings = raitingRep.GetAll().Select(c => new Rating
             {
-                RatingId = c.Id,
-                RatingName = c.Name
+                Id = c.Id,
+                Name = c.Name
             }).ToList();
-            viewModel.Ratings = new MultiSelectList(ratings, "RatingId", "RatingName");
+            viewModel.Ratings = ratings;
 
-            var subTasks = subTaskRep.GetAll().Select(c => new
+            var subTasks = subTaskRep.GetAll().Select(c => new SubTask
             {
-                SubTaskId = c.Id,
-                SubTaskName = c.Name
+                Id = c.Id,
+                Name = c.Name
             }).ToList();
-            viewModel.SubTasks = new MultiSelectList(subTasks, "SubTaskId", "SubTaskName");
+            viewModel.SubTasks = subTasks;
 
-            var tags = tagRepository.GetAll().Select(c => new
+            var tags = tagRepository.GetAll().Select(c => new Tag
             {
-                TagId = c.Id,
-                TagName = c.Name
+                Id = c.Id,
+                Name = c.Name
             }).ToList();
-            viewModel.Tags = new MultiSelectList(tags, "TagId", "TagName");
+            viewModel.Tags = tags;
 
             return View(viewModel);
         }
@@ -168,10 +168,11 @@ namespace Repository.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "DateOfAdding,Version")] CreateViewModel viewModel)
+        public async Task<ActionResult> Create(CreateViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
+               
                 Artifact artifact = new Artifact() { Version = viewModel.Version, DateOfAdding = viewModel.DateOfAdding };
                 artifactRep.Add(artifact);
                 artifactRep.Save();
