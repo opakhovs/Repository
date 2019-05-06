@@ -126,7 +126,50 @@ namespace Repository.Controllers
         // GET: Artifacts/Create
         public ActionResult Create()
         {
-            return View();
+            CreateViewModel viewModel = new CreateViewModel();
+            var artTypes = artTypeRep.GetAll().Select(c => new ArtType
+            {
+                Id = c.Id,
+                Name = c.Name
+            }).ToList();
+            viewModel.Types = artTypes;
+
+            var problemDomains = problemDomainRep.GetAll().Select(c => new ProblemDomain
+            {
+                Id = c.Id,
+                Name = c.Name
+            }).ToList();
+            viewModel.Domains = problemDomains;
+
+            var projects = projectRep.GetAll().Select(c => new Project
+            {
+                Id = c.Id,
+                Name = c.Name
+            }).ToList();
+            viewModel.Projects = projects;
+
+            var ratings = raitingRep.GetAll().Select(c => new Rating
+            {
+                Id = c.Id,
+                Name = c.Name
+            }).ToList();
+            viewModel.Ratings = ratings;
+
+            var subTasks = subTaskRep.GetAll().Select(c => new SubTask
+            {
+                Id = c.Id,
+                Name = c.Name
+            }).ToList();
+            viewModel.SubTasks = subTasks;
+
+            var tags = tagRepository.GetAll().Select(c => new Tag
+            {
+                Id = c.Id,
+                Name = c.Name
+            }).ToList();
+            viewModel.Tags = tags;
+
+            return View(viewModel);
         }
 
         // POST: Artifacts/Create
@@ -134,10 +177,11 @@ namespace Repository.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "DateOfAdding,Version")] CreateViewModel viewModel)
+        public async Task<ActionResult> Create(CreateViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
+               
                 Artifact artifact = new Artifact() { Version = viewModel.Version, DateOfAdding = viewModel.DateOfAdding };
                 artifactRep.Add(artifact);
                 artifactRep.Save();
