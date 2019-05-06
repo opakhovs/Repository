@@ -30,8 +30,8 @@ namespace Repository.Viewmodels.ArtifactsViewModels
         public int[] DomainIds { get; set; }
         public List<ProblemDomain> Domains { get; set; }
 
-        public int[] SubTaskIds { get; set; }
-        public List<SubTask> SubTasks { get; set; }
+        //public int[] SubTaskIds { get; set; }
+        //public List<SubTask> SubTasks { get; set; }
 
     }
 }

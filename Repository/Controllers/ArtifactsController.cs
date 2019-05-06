@@ -155,12 +155,12 @@ namespace Repository.Controllers
             }).ToList();
             viewModel.Ratings = ratings;
 
-            var subTasks = subTaskRep.GetAll().Select(c => new SubTask
-            {
-                Id = c.Id,
-                Name = c.Name
-            }).ToList();
-            viewModel.SubTasks = subTasks;
+            //var subTasks = subTaskRep.GetAll().Select(c => new SubTask
+            //{
+            //    Id = c.Id,
+            //    Name = c.Name
+            //}).ToList();
+            //viewModel.SubTasks = subTasks;
 
             var tags = tagRepository.GetAll().Select(c => new Tag
             {
