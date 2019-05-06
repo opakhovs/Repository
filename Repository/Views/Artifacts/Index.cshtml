@@ -5,13 +5,17 @@
 }
 
 <h2>Index</h2>
+@using (Html.BeginForm("Index", "Artifacts", FormMethod.Post))
+{
+    @Html.ListBoxFor(model => model.SelectedProperties, Model.ArtTypes, new { size = 4 })
+    @Html.ListBoxFor(model => model.SelectedProperties, Model.ProblemDomains, new { size = 4 })
+    @Html.ListBoxFor(model => model.SelectedProperties, Model.Projects, new { size = 4 })
+    @Html.ListBoxFor(model => model.SelectedProperties, Model.Ratings, new { size = 4 })
+    //@Html.ListBoxFor(model => model.SelectedProperties, Model.SubTasks, new { size = 4 })
+    @Html.ListBoxFor(model => model.SelectedProperties, Model.Tags, new { size = 4 })
 
-@Html.ListBox("ArtTypeId", Model.ArtTypes, new { size = 4 })
-@Html.ListBox("ProblemDomainId", Model.ProblemDomains, new { size = 4 })
-@Html.ListBox("ProjectId", Model.Projects, new { size = 4 })
-@Html.ListBox("RatingId", Model.Ratings, new { size = 4 })
-@Html.ListBox("SubTaskId", Model.SubTasks, new { size = 4 })
-@Html.ListBox("TagId", Model.Tags, new { size = 4 })
+    <input type="submit" value="Sort" />
+}
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>

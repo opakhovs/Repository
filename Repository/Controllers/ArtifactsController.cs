@@ -23,7 +23,7 @@ namespace Repository.Controllers
         private IProblemDomainRepository problemDomainRep;
         private IProjectRepository projectRep;
         private IRatingRepository raitingRep;
-        private ISubTaskRepository subTaskRep;
+        //private ISubTaskRepository subTaskRep;
         private ITagRepository tagRepository;
 
         public ArtifactsController()
@@ -33,7 +33,7 @@ namespace Repository.Controllers
             problemDomainRep = new ProblemDomainRepository(context);
             projectRep = new ProjectRepository(context);
             raitingRep = new RatingRepository(context);
-            subTaskRep = new SubTaskRepository(context);
+            //subTaskRep = new SubTaskRepository(context);
             tagRepository = new TagRepository(context);
         }
 
@@ -51,6 +51,15 @@ namespace Repository.Controllers
             }
 
             viewModel.Artifacts = listForViewModel;
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Index(IndexViewModel viewModel)
+        {
+            var properties = viewModel.SelectedProperties;
+            InitializeIndexViewModelForSearch(viewModel);
 
             return View(viewModel);
         }
@@ -85,12 +94,12 @@ namespace Repository.Controllers
             }).ToList();
             viewModel.Ratings = new MultiSelectList(ratings, "RatingId", "RatingName");
 
-            var subTasks = subTaskRep.GetAll().Select(c => new
-            {
-                SubTaskId = c.Id,
-                SubTaskName = c.Name
-            }).ToList();
-            viewModel.SubTasks = new MultiSelectList(subTasks, "SubTaskId", "SubTaskName");
+            //var subTasks = subTaskRep.GetAll().Select(c => new
+            //{
+            //    SubTaskId = c.Id,
+            //    SubTaskName = c.Name
+            //}).ToList();
+            //viewModel.SubTasks = new MultiSelectList(subTasks, "SubTaskId", "SubTaskName");
 
             var tags = tagRepository.GetAll().Select(c => new
             {

@@ -10,11 +10,13 @@ namespace Repository.Viewmodels.ArtifactsViewModels
     {
         public IEnumerable<ArtifactViewModel> Artifacts { get; set; } = new List<ArtifactViewModel>();
 
-        public MultiSelectList ArtTypes;
-        public MultiSelectList ProblemDomains;
-        public MultiSelectList Projects;
-        public MultiSelectList Ratings;
-        public MultiSelectList SubTasks;
-        public MultiSelectList Tags;
+        public MultiSelectList ArtTypes { get; set; }
+        public MultiSelectList ProblemDomains { get; set; }
+        public MultiSelectList Projects { get; set; }
+        public MultiSelectList Ratings { get; set; }
+        public MultiSelectList SubTasks { get; set; }
+        public MultiSelectList Tags { get; set; }
+
+        public int[] SelectedProperties { get; set; }
     }
 }
