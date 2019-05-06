@@ -7,11 +7,20 @@
 <h2>Index</h2>
 @using (Html.BeginForm("Index", "Artifacts", FormMethod.Post))
 {
+    @Html.LabelFor(model => model.ArtTypes, htmlAttributes: new { @class = "control-label col-md-2" })
     @Html.ListBoxFor(model => model.SelectedProperties, Model.ArtTypes, new { size = 4 })
+
+    @Html.LabelFor(model => model.ProblemDomains, htmlAttributes: new { @class = "control-label col-md-2" })
     @Html.ListBoxFor(model => model.SelectedProperties, Model.ProblemDomains, new { size = 4 })
+
+    @Html.LabelFor(model => model.Projects, htmlAttributes: new { @class = "control-label col-md-2" })
     @Html.ListBoxFor(model => model.SelectedProperties, Model.Projects, new { size = 4 })
+
+    @Html.LabelFor(model => model.Ratings, htmlAttributes: new { @class = "control-label col-md-2" })
     @Html.ListBoxFor(model => model.SelectedProperties, Model.Ratings, new { size = 4 })
     //@Html.ListBoxFor(model => model.SelectedProperties, Model.SubTasks, new { size = 4 })
+
+    @Html.LabelFor(model => model.Tags, htmlAttributes: new { @class = "control-label col-md-2" })
     @Html.ListBoxFor(model => model.SelectedProperties, Model.Tags, new { size = 4 })
 
     <input type="submit" value="Sort" />
