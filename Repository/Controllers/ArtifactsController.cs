@@ -59,6 +59,10 @@ namespace Repository.Controllers
         public async Task<ActionResult> Index(IndexViewModel viewModel)
         {
             var properties = viewModel.SelectedProperties;
+
+            //ArtifactSortService sortService = new ArtifactSortService();
+            //viewModel.Artifacts = sortService.SortByProperties(viewModel.Artifacts, viewModel.SelectedProperties);
+
             InitializeIndexViewModelForSearch(viewModel);
 
             return View(viewModel);
