@@ -13,7 +13,9 @@ namespace Repository.Services
   
         public List<Artifact> SortByProperties(IEnumerable<Artifact> artifacts, List<IDataSource<ArtifactProperty>> listOfRepositories, int[] selectedProperties)
         {
-            List<Artifact> artifactViewModels = artifacts.ToList();
+            List<Artifact> artifactModels = artifacts.ToList();
+            if (selectedProperties == null)
+                return artifactModels;
             for(int i = 0; i < listOfRepositories.Count; i++)
             {
                 List<int> idsOfEachProperty = new List<int>();
@@ -31,28 +33,30 @@ namespace Repository.Services
                 if (idsOfEachProperty.Count != 0)
                 {
                     Stack<int> toDelete = new Stack<int>();
-                    for (int artifactIndex = 0; artifactIndex < artifactViewModels.Count; artifactIndex++)
+                    for (int artifactIndex = 0; artifactIndex < artifactModels.Count; artifactIndex++)
                     {
-                        for (int propertyId = 0; propertyId < idsOfEachProperty.Count; propertyId++)
+                        int propertyId, artifactPropertyIndex;
+                        for (propertyId = 0; propertyId < idsOfEachProperty.Count; propertyId++)
                         {
-                            for (int artifactPropertyIndex = 0; artifactPropertyIndex < artifactViewModels[artifactIndex].Properties.Count; artifactPropertyIndex++)
+                            for (artifactPropertyIndex = 0; artifactPropertyIndex < artifactModels[artifactIndex].Properties.Count; artifactPropertyIndex++)
                             {
-                                if (idsOfEachProperty[propertyId] == artifactViewModels[artifactIndex].Properties[artifactPropertyIndex].Id)
+                                if (idsOfEachProperty[propertyId] == artifactModels[artifactIndex].Properties[artifactPropertyIndex].Id)
                                 {
-                                    artifactPropertyIndex = artifactViewModels[artifactIndex].Properties.Count;
-                                    propertyId = idsOfEachProperty.Count;
+                                    artifactPropertyIndex = artifactModels[artifactIndex].Properties.Count + 1;
+                                    propertyId = idsOfEachProperty.Count + 1;
                                 }
-                                toDelete.Push(artifactIndex);
                             }
                         }
+                        if (propertyId == idsOfEachProperty.Count)
+                            toDelete.Push(artifactIndex);
                     }
-                    while(toDelete.Count != 0)
+                    while (toDelete.Count != 0)
                     {
-                        artifactViewModels.RemoveAt(toDelete.Pop());
+                        artifactModels.RemoveAt(toDelete.Pop());
                     }
                 }
             }
-            return artifactViewModels;
+            return artifactModels;
         }
     }
 }
