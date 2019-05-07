@@ -12,11 +12,14 @@ using Repository.Repositories.Interfaces;
 using Repository.Repositories.Implementations;
 using Repository.Viewmodels.ArtifactsViewModels;
 using Repository.Repositories;
+using Repository.Services;
 
 namespace Repository.Controllers
 {
     public class ArtifactsController : Controller
     {
+        private static readonly int NumberOfPropertyKinds = 5;
+
         private SQLContext context = new SQLContext();
         private IArtifactRepository artifactRep;
         private IArtTypeRepository artTypeRep;
@@ -60,12 +63,19 @@ namespace Repository.Controllers
         {
             var properties = viewModel.SelectedProperties;
 
-            //ArtifactSortService sortService = new ArtifactSortService();
-            //viewModel.Artifacts = sortService.SortByProperties(viewModel.Artifacts, viewModel.SelectedProperties);
+            ArtifactSortService sortService = new ArtifactSortService();
+            viewModel.Artifacts = sortService.SortByProperties(viewModel.Artifacts, CreateListOfRepositories(), viewModel.SelectedProperties);
 
             InitializeIndexViewModelForSearch(viewModel);
 
             return View(viewModel);
+        }
+
+        private List<IRepository> CreateListOfRepositories()
+        {
+            List<IRepository> repositories = new List<IRepository>();
+            repositories.Add(artifactRep);
+            return repositories;
         }
 
         private void InitializeIndexViewModelForSearch(IndexViewModel viewModel)
@@ -185,7 +195,6 @@ namespace Repository.Controllers
         {
             if (ModelState.IsValid)
             {
-               
                 Artifact artifact = new Artifact() { Version = viewModel.Version, DateOfAdding = viewModel.DateOfAdding };
                 artifactRep.Add(artifact);
                 artifactRep.Save();

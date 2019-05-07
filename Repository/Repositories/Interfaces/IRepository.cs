@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Repository.Repositories.Interfaces
 {
-    public interface IRepository<T>:IDisposable where T:class
+    public interface IRepository
+    {
+    }
+
+    public interface IRepository<T>:IRepository, IDisposable where T:class
     {
         IEnumerable<T> GetAll();
         T GetById(int? id);
