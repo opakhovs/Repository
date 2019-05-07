@@ -32,48 +32,48 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(x => Model.ArtifactTypeId, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(x => Model.Types, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-5">
             @Html.DropDownListFor(x => x.ArtifactTypeId,  Model.Types.Select(x => new SelectListItem{ Text = x.Name, Value = x.Id.ToString()}),
                         htmlAttributes: new { @class = "form-control", id = "ArtifactType" })
-            @Html.ValidationMessageFor(x => x.ArtifactTypeId, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(x => x.SelectedIds, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(x => x.RatingIds, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(x => Model.Ratings, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-5">
-            @Html.DropDownListFor(x => x.RatingIds, Model.Ratings.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString()}),
+            @Html.DropDownListFor(x => x.SelectedIds, Model.Ratings.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString()}),
                                            htmlAttributes: new { @class = "form-control", id = "Ratings", @multiple = true })
-            @Html.ValidationMessageFor(x => x.RatingIds, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(x => x.SelectedIds, "", new { @class = "text-danger" })
         </div>
     </div>
 
 
     <div class="form-group">
-        @Html.LabelFor(x => x.TagIds, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(x => Model.Tags, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-5">
-            @Html.DropDownListFor(x => x.TagIds, Model.Tags.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString()}),
+            @Html.DropDownListFor(x => x.SelectedIds, Model.Tags.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString()}),
                                             htmlAttributes: new { @class = "form-control", id = "Tags", @multiple = true })
-            @Html.ValidationMessageFor(x => x.TagIds, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(x => x.SelectedIds, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(x => x.ProjectIds, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(x => Model.Projects, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-5">
-            @Html.DropDownListFor(x => x.ProjectIds, Model.Projects.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString()}),
+            @Html.DropDownListFor(x => x.SelectedIds, Model.Projects.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString()}),
                                             htmlAttributes: new { @class = "form-control", id = "Projects", @multiple = true })
-            @Html.ValidationMessageFor(x => x.ProjectIds, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(x => x.SelectedIds, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(x => x.DomainIds, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(x => Model.Domains, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-5">
-            @Html.DropDownListFor(x => x.DomainIds, Model.Domains.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString()}),
+            @Html.DropDownListFor(x => x.SelectedIds, Model.Domains.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString()}),
                                               htmlAttributes: new { @class = "form-control", id = "Domains", @multiple = true })
-            @Html.ValidationMessageFor(x => x.DomainIds, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(x => x.SelectedIds, "", new { @class = "text-danger" })
         </div>
     </div>
 

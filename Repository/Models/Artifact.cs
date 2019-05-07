@@ -11,6 +11,6 @@ namespace Repository.Models
         public DateTime DateOfAdding { get; set; }
         public string Version { get; set; }
 
-        public List<ArtifactProperty> Properties { get; set; }
+        public List<ArtifactProperty> Properties { get; set; } = new List<ArtifactProperty>();
     }
 }

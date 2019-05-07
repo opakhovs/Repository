@@ -28,6 +28,7 @@ namespace Repository.Controllers
         private IRatingRepository raitingRep;
         //private ISubTaskRepository subTaskRep;
         private ITagRepository tagRepository;
+        private IArtifactPropertyRepository artPropertyRep;
 
         public ArtifactsController()
         {
@@ -38,6 +39,7 @@ namespace Repository.Controllers
             raitingRep = new RatingRepository(context);
             //subTaskRep = new SubTaskRepository(context);
             tagRepository = new TagRepository(context);
+            artPropertyRep = new ArtifactTypeRepository(context);
         }
 
         // GET: Artifacts
@@ -196,6 +198,15 @@ namespace Repository.Controllers
             if (ModelState.IsValid)
             {
                 Artifact artifact = new Artifact() { Version = viewModel.Version, DateOfAdding = viewModel.DateOfAdding };
+                var listOfIndexes = viewModel.SelectedIds.ToList();
+
+                artifact.Properties.Add(artPropertyRep.GetById(viewModel.ArtifactTypeId));
+                artifact.Properties.AddRange(listOfIndexes
+                    .SelectMany(i => artPropertyRep.GetAll()
+                    .Where(p => p.Id == i)));
+
+                Artifact newArtifact = artifact;
+
                 artifactRep.Add(artifact);
                 artifactRep.Save();
                 return RedirectToAction("Index");

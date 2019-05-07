@@ -157,12 +157,14 @@
     <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Implementations\ArtifactRepository.cs" />
+    <Compile Include="Repositories\Implementations\ArtifactTypeRepository.cs" />
     <Compile Include="Repositories\Implementations\ArtTypeRepository.cs" />
     <Compile Include="Repositories\Implementations\ProblemDomainRepository.cs" />
     <Compile Include="Repositories\Implementations\ProjectRepository.cs" />
     <Compile Include="Repositories\Implementations\RatingRepository.cs" />
     <Compile Include="Repositories\Implementations\SubTaskRepository.cs" />
     <Compile Include="Repositories\Implementations\TagRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IArtifactPropertyRepository.cs" />
     <Compile Include="Repositories\Interfaces\IArtifactRepository.cs" />
     <Compile Include="Repositories\Interfaces\IArtTypeRepository.cs" />
     <Compile Include="Repositories\Interfaces\IProblemDomainRepository.cs" />
