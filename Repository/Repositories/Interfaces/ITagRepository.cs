@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Repositories.Interfaces
 {
-    interface ITagRepository:IRepository<Tag>
+    interface ITagRepository:IRepository<Tag>, IDataSource<Tag>
     {
     }
 }

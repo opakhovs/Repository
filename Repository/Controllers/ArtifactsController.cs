@@ -66,17 +66,30 @@ namespace Repository.Controllers
             var properties = viewModel.SelectedProperties;
 
             ArtifactSortService sortService = new ArtifactSortService();
-            viewModel.Artifacts = sortService.SortByProperties(viewModel.Artifacts, CreateListOfRepositories(), viewModel.SelectedProperties);
+            List<Artifact> resultOfSearch = sortService.SortByProperties(artifactRep.GetAll(), CreateListOfRepositories(), viewModel.SelectedProperties);
+
+            List<ArtifactViewModel> listForViewModel = new List<ArtifactViewModel>();
+
+            foreach (var x in resultOfSearch)
+            {
+                listForViewModel.Add(new ArtifactViewModel() { ArtifactId = x.ArtifactId, DateOfAdding = x.DateOfAdding, Version = x.Version });
+            }
+
+            viewModel.Artifacts = listForViewModel;
 
             InitializeIndexViewModelForSearch(viewModel);
 
             return View(viewModel);
         }
 
-        private List<IRepository> CreateListOfRepositories()
+        private List<IDataSource<ArtifactProperty>> CreateListOfRepositories()
         {
-            List<IRepository> repositories = new List<IRepository>();
-            repositories.Add(artifactRep);
+            List<IDataSource<ArtifactProperty>> repositories = new List<IDataSource<ArtifactProperty>>();
+            repositories.Add(artTypeRep);
+            repositories.Add(problemDomainRep);
+            repositories.Add(projectRep);
+            repositories.Add(raitingRep);
+            repositories.Add(tagRepository);
             return repositories;
         }
 

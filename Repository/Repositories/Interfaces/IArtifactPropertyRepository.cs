@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Repositories.Interfaces
 {
-    interface IArtifactPropertyRepository : IRepository<ArtifactProperty>
+    interface IArtifactPropertyRepository : IRepository<ArtifactProperty>, IDataSource<ArtifactProperty>
     {
     }
 }

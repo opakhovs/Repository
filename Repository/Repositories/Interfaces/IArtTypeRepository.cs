@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Repositories.Interfaces
 {
-    interface IArtTypeRepository : IRepository<ArtType>
+    interface IArtTypeRepository : IRepository<ArtType>, IDataSource<ArtType>
     {
     }
 }

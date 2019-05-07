@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Repositories.Interfaces
 {
-    interface IRatingRepository : IRepository<Rating>
+    interface IRatingRepository : IRepository<Rating>, IDataSource<Rating>
     {
     }
 }

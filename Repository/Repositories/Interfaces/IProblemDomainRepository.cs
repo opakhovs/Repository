@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Repositories.Interfaces
 {
-    interface IProblemDomainRepository : IRepository<ProblemDomain>
+    interface IProblemDomainRepository : IRepository<ProblemDomain>, IDataSource<ProblemDomain>
     {
     }
 }
