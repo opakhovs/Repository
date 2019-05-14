@@ -66,7 +66,7 @@ namespace Repository.Controllers
             var properties = viewModel.SelectedProperties;
 
             ArtifactSortService sortService = new ArtifactSortService();
-            List<Artifact> resultOfSearch = sortService.SortByProperties(artifactRep.GetAll(), CreateListOfRepositories(), viewModel.SelectedProperties);
+            List<Artifact> resultOfSearch = sortService.SortByPropertiesOneOfEachCategory(artifactRep.GetAll(), CreateListOfRepositories(), viewModel.SelectedProperties);
 
             List<ArtifactViewModel> listForViewModel = new List<ArtifactViewModel>();
 

@@ -11,7 +11,7 @@ namespace Repository.Services
     public class ArtifactSortService
     {
   
-        public List<Artifact> SortByProperties(IEnumerable<Artifact> artifacts, List<IDataSource<ArtifactProperty>> listOfRepositories, int[] selectedProperties)
+        public List<Artifact> SortByPropertiesOneOfEachCategory(IEnumerable<Artifact> artifacts, List<IDataSource<ArtifactProperty>> listOfRepositories, int[] selectedProperties)
         {
             List<Artifact> artifactModels = artifacts.ToList();
             if (selectedProperties == null)
@@ -57,6 +57,32 @@ namespace Repository.Services
                 }
             }
             return artifactModels;
+        }
+
+        public List<Artifact> SortByPropertiesAllInEachCategory(IEnumerable<Artifact> artifacts, int[] selectedProperties)
+        {
+            List<Artifact> artifactModels = artifacts.ToList();
+            if (selectedProperties == null)
+                return artifactModels;
+            List<Artifact> artifactsResult = new List<Artifact>();
+            foreach(Artifact artifact in artifactModels)
+            {
+                bool allMatches = true;
+                for (int i = 0; i < selectedProperties.Length; i++)
+                {
+                    bool hasProperty = false;
+                    foreach (ArtifactProperty artifactProperty in artifact.Properties)
+                    {
+                        if (artifactProperty.Id == selectedProperties[i])
+                            hasProperty = true;
+                    }
+                    if (hasProperty == false)
+                        allMatches = false;
+                }
+                if (allMatches == true)
+                    artifactsResult.Add(artifact);
+            }
+            return artifactsResult;
         }
     }
 }
