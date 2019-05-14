@@ -17,6 +17,8 @@ namespace Repository.Viewmodels.ArtifactsViewModels
         public MultiSelectList SubTasks { get; set; }
         public MultiSelectList Tags { get; set; }
 
+        public String isAllMatchesSelected { get; set; }
+
         public int[] SelectedProperties { get; set; }
     }
 }

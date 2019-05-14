@@ -22,6 +22,9 @@
 
     @Html.LabelFor(model => model.Tags, htmlAttributes: new { @class = "control-label col-md-2" })
     @Html.ListBoxFor(model => model.SelectedProperties, Model.Tags, new { size = 4 })
+    
+    @Html.RadioButtonFor(model => model.isAllMatchesSelected, "AllMatches")<text>AllMatches</text>
+    @Html.RadioButtonFor(model => model.isAllMatchesSelected, "AnyCategoryMatches")<text>AnyCategoryMatches</text>
 
     <input type="submit" value="Search" />
 }

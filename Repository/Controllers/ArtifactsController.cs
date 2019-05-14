@@ -64,9 +64,15 @@ namespace Repository.Controllers
         public async Task<ActionResult> Index(IndexViewModel viewModel)
         {
             var properties = viewModel.SelectedProperties;
+            var allMatchesSelected = viewModel.isAllMatchesSelected;
 
             ArtifactSortService sortService = new ArtifactSortService();
-            List<Artifact> resultOfSearch = sortService.SortByPropertiesOneOfEachCategory(artifactRep.GetAll(), CreateListOfRepositories(), viewModel.SelectedProperties);
+            
+            List<Artifact> resultOfSearch;
+            if (allMatchesSelected == "AllMatches")
+                resultOfSearch = sortService.SortByPropertiesAllInEachCategory(artifactRep.GetAll(), viewModel.SelectedProperties);
+            else
+                resultOfSearch = sortService.SortByPropertiesOneOfEachCategory(artifactRep.GetAll(), CreateListOfRepositories(), viewModel.SelectedProperties);
 
             List<ArtifactViewModel> listForViewModel = new List<ArtifactViewModel>();
 
