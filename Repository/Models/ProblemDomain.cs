@@ -7,6 +7,6 @@ namespace Repository.Models
 {
     public class ProblemDomain : ArtifactProperty
     {
-        public List<SubTask> SubTasks { get; set; }
+        public virtual List<SubTask> SubTasks { get; set; } = new List<SubTask>();
     }
 }

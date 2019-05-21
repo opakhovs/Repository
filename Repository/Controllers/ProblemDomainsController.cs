@@ -10,12 +10,14 @@ using System.Web.Mvc;
 using Repository.Models;
 using Repository.Repositories.Interfaces;
 using Repository.Repositories.Implementations;
+using Repository.Viewmodels.ProblemDomainViewModels;
 
 namespace Repository.Controllers
 {
     public class ProblemDomainsController : Controller
     {
         private IProblemDomainRepository db = new ProblemDomainRepository(new Repositories.SQLContext());
+        private ISubTaskRepository dbSubTask = new SubTaskRepository(new Repositories.SQLContext());
 
         // GET: ProblemDomains
         public async Task<ActionResult> Index()
@@ -26,6 +28,7 @@ namespace Repository.Controllers
         // GET: ProblemDomains/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+            DetailsDomainViewModel model = new DetailsDomainViewModel();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -35,13 +38,24 @@ namespace Repository.Controllers
             {
                 return HttpNotFound();
             }
-            return View(problemDomain);
+            model.Name = problemDomain.Name;
+            model.Description = problemDomain.Description;
+            model.SubTasks = problemDomain.SubTasks;
+            model.SubTaskIds = problemDomain.SubTasks.Select(x => x.Id).ToArray();
+            return View(model);
         }
 
         // GET: ProblemDomains/Create
         public ActionResult Create()
         {
-            return View();
+            CreateProblemDomainViewModel viewModel = new CreateProblemDomainViewModel();
+            var subTasks = dbSubTask.GetAll().Select(c => new SubTask
+            {
+                Id = c.Id,
+                Name = c.Name
+            }).ToList();
+            viewModel.SubTasks = subTasks;
+            return View(viewModel);
         }
 
         // POST: ProblemDomains/Create
@@ -49,16 +63,25 @@ namespace Repository.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Description,Name")] ProblemDomain problemDomain)
+        public async Task<ActionResult> Create(CreateProblemDomainViewModel model)
         {
             if (ModelState.IsValid)
             {
-                db.Add(problemDomain);
+                ProblemDomain domain = new ProblemDomain() { Name = model.Name, Description = model.Description };
+                int[] listOfIndexes = model.SubTaskIds;
+                if( listOfIndexes != null)
+                {
+                    domain.SubTasks.AddRange(listOfIndexes.ToList()
+                    .SelectMany(i => dbSubTask.GetAll()
+                    .Where(p => p.Id == i)));
+                }
+
+                db.Add(domain);
                 db.Save();
                 return RedirectToAction("Index");
             }
 
-            return View(problemDomain);
+            return View(model);
         }
 
         // GET: ProblemDomains/Edit/5

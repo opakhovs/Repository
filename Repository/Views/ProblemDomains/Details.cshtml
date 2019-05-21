@@ -1,4 +1,4 @@
-﻿@model Repository.Models.ProblemDomain
+﻿@model Repository.Viewmodels.ProblemDomainViewModels.DetailsDomainViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -24,9 +24,16 @@
         <dd>
             @Html.DisplayFor(model => model.Description)
         </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SubTasks)
+        </dt>
+        <dd>
+            @Html.DropDownListFor(x => x.SubTaskIds, Model.SubTasks.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString()}))
+        </dd>
+
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
