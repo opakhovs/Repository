@@ -7,6 +7,10 @@ namespace Repository.Models
 {
     public class ArtifactProperty : Property
     {
+        public ArtifactProperty()
+        {
+
+        }
         public virtual List<Artifact> Artifacts { get; set; } = new List<Artifact>();
     }
 }

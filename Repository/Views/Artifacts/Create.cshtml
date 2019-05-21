@@ -1,7 +1,7 @@
 ﻿@model Repository.Viewmodels.ArtifactsViewModels.CreateViewModel
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create new artifact";
 }
 
 <h2>Create</h2>
@@ -12,7 +12,6 @@
     @Html.AntiForgeryToken()
     
 <div class="form-horizontal">
-    <h4>Artifact</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
