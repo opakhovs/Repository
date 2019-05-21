@@ -1,15 +1,21 @@
-﻿@model Repository.Models.Artifact
+﻿@using Repository.Viewmodels;
+@model Repository.Viewmodels.ArtifactsViewModels.ArtifactViewModel
 
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Details about artifact</h2>
 
 <div>
-    <h4>Artifact</h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Properties.First().Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Properties.First().Name)
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.DateOfAdding)
         </dt>
@@ -25,6 +31,53 @@
         <dd>
             @Html.DisplayFor(model => model.Version)
         </dd>
+
+        @foreach (var prop in Model.Properties)
+        {
+            switch (prop)
+            {
+                case ArtTypeViewModel artType:
+                    var prop1 = prop as ArtTypeViewModel;   
+                    
+                    <dt>
+                        @Html.DisplayNameFor(modelItem => prop1.Name)
+                    </dt>
+
+                    break;
+
+                case ProblemDomainViewModel problemDomain:
+                    var prop2 = prop as ProblemDomainViewModel;
+                    
+                    <dt>
+                        @Html.DisplayNameFor(modelItem => prop2.Name)
+                    </dt>
+                    break;
+                case ProjectViewModel project:
+                    var prop3 = prop as ProjectViewModel;
+                    
+                    <dt>
+                        @Html.DisplayNameFor(modelItem => prop3.Name)
+                    </dt>
+                    break;
+                case RatingViewModel rating:
+                    var prop4 = prop as RatingViewModel;
+                        
+                    <dt>
+                        @Html.DisplayNameFor(modelItem => prop4.Name)
+                    </dt>
+                    break;
+                case TagViewModel tag:
+                    var prop5 = prop as TagViewModel;
+                    
+                    <dt>
+                        @Html.DisplayNameFor(modelItem => prop5.Name)
+                    </dt>
+                    break;
+            }
+            <dd>
+                @Html.DisplayFor(modelItem => prop.Name)
+            </dd>
+        }
 
     </dl>
 </div>

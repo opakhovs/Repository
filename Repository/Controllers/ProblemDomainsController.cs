@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using Repository.Models;
 using Repository.Repositories.Interfaces;
 using Repository.Repositories.Implementations;
+using Repository.Viewmodels;
 
 namespace Repository.Controllers
 {
@@ -20,7 +21,13 @@ namespace Repository.Controllers
         // GET: ProblemDomains
         public async Task<ActionResult> Index()
         {
-            return View(db.GetAll());
+            List<ProblemDomainViewModel> list = new List<ProblemDomainViewModel>();
+            foreach (var i in db.GetAll())
+            {
+                list.Add(new ProblemDomainViewModel(i));
+            }
+
+            return View(list);
         }
 
         // GET: ProblemDomains/Details/5
@@ -30,12 +37,12 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProblemDomain problemDomain = db.GetById(id);
-            if (problemDomain == null)
+            ProblemDomain ProblemDomain = db.GetById(id);
+            if (ProblemDomain == null)
             {
                 return HttpNotFound();
             }
-            return View(problemDomain);
+            return View(new ProblemDomainViewModel(ProblemDomain));
         }
 
         // GET: ProblemDomains/Create
@@ -49,16 +56,16 @@ namespace Repository.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Description,Name")] ProblemDomain problemDomain)
+        public async Task<ActionResult> Create(ProblemDomainViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                db.Add(problemDomain);
+                db.Add(viewModel.GetModel());
                 db.Save();
                 return RedirectToAction("Index");
             }
 
-            return View(problemDomain);
+            return View(viewModel);
         }
 
         // GET: ProblemDomains/Edit/5
@@ -68,12 +75,12 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProblemDomain problemDomain = db.GetById(id);
-            if (problemDomain == null)
+            ProblemDomain ProblemDomain = db.GetById(id);
+            if (ProblemDomain == null)
             {
                 return HttpNotFound();
             }
-            return View(problemDomain);
+            return View(new ProblemDomainViewModel(ProblemDomain));
         }
 
         // POST: ProblemDomains/Edit/5
@@ -81,15 +88,15 @@ namespace Repository.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Description,Name")] ProblemDomain problemDomain)
+        public async Task<ActionResult> Edit(ProblemDomainViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                db.Update(problemDomain);
+                db.Update(viewModel.GetModel());
                 db.Save();
                 return RedirectToAction("Index");
             }
-            return View(problemDomain);
+            return View(viewModel);
         }
 
         // GET: ProblemDomains/Delete/5
@@ -99,12 +106,12 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProblemDomain problemDomain = db.GetById(id);
-            if (problemDomain == null)
+            ProblemDomain ProblemDomain = db.GetById(id);
+            if (ProblemDomain == null)
             {
                 return HttpNotFound();
             }
-            return View(problemDomain);
+            return View(new ProblemDomainViewModel(ProblemDomain));
         }
 
         // POST: ProblemDomains/Delete/5

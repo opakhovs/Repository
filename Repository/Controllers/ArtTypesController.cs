@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using Repository.Models;
 using Repository.Repositories.Interfaces;
 using Repository.Repositories.Implementations;
+using Repository.Viewmodels;
 
 namespace Repository.Controllers
 {
@@ -20,7 +21,13 @@ namespace Repository.Controllers
         // GET: ArtTypes
         public async Task<ActionResult> Index()
         {
-            return View(db.GetAll());
+            List<ArtTypeViewModel> list = new List<ArtTypeViewModel>();
+            foreach(var i in db.GetAll())
+            {
+                list.Add(new ArtTypeViewModel(i));
+            }
+            
+            return View(list);
         }
 
         // GET: ArtTypes/Details/5
@@ -35,7 +42,7 @@ namespace Repository.Controllers
             {
                 return HttpNotFound();
             }
-            return View(artType);
+            return View(new ArtTypeViewModel(artType));
         }
 
         // GET: ArtTypes/Create
@@ -49,16 +56,16 @@ namespace Repository.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Description,Name")] ArtType artType)
+        public async Task<ActionResult> Create(ArtTypeViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                db.Add(artType);
+                db.Add(viewModel.GetModel());
                 db.Save();
                 return RedirectToAction("Index");
             }
 
-            return View(artType);
+            return View(viewModel);
         }
 
         // GET: ArtTypes/Edit/5
@@ -73,7 +80,7 @@ namespace Repository.Controllers
             {
                 return HttpNotFound();
             }
-            return View(artType);
+            return View(new ArtTypeViewModel(artType));
         }
 
         // POST: ArtTypes/Edit/5
@@ -81,15 +88,15 @@ namespace Repository.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Description,Name")] ArtType artType)
+        public async Task<ActionResult> Edit(ArtTypeViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                db.Update(artType);
+                db.Update(viewModel.GetModel());
                 db.Save();
                 return RedirectToAction("Index");
             }
-            return View(artType);
+            return View(viewModel);
         }
 
         // GET: ArtTypes/Delete/5
@@ -104,7 +111,7 @@ namespace Repository.Controllers
             {
                 return HttpNotFound();
             }
-            return View(artType);
+            return View(new ArtTypeViewModel(artType));
         }
 
         // POST: ArtTypes/Delete/5

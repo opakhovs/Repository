@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using Repository.Models;
 using Repository.Repositories.Interfaces;
 using Repository.Repositories.Implementations;
+using Repository.Viewmodels;
 
 namespace Repository.Controllers
 {
@@ -20,7 +21,13 @@ namespace Repository.Controllers
         // GET: Ratings
         public async Task<ActionResult> Index()
         {
-            return View(db.GetAll());
+            List<RatingViewModel> list = new List<RatingViewModel>();
+            foreach (var i in db.GetAll())
+            {
+                list.Add(new RatingViewModel(i));
+            }
+
+            return View(list);
         }
 
         // GET: Ratings/Details/5
@@ -30,12 +37,12 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Rating rating = db.GetById(id);
-            if (rating == null)
+            Rating Rating = db.GetById(id);
+            if (Rating == null)
             {
                 return HttpNotFound();
             }
-            return View(rating);
+            return View(new RatingViewModel(Rating));
         }
 
         // GET: Ratings/Create
@@ -49,16 +56,16 @@ namespace Repository.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Description,Name,RateValue")] Rating rating)
+        public async Task<ActionResult> Create(RatingViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                db.Add(rating);
+                db.Add(viewModel.GetModel());
                 db.Save();
                 return RedirectToAction("Index");
             }
 
-            return View(rating);
+            return View(viewModel);
         }
 
         // GET: Ratings/Edit/5
@@ -68,12 +75,12 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Rating rating = db.GetById(id);
-            if (rating == null)
+            Rating Rating = db.GetById(id);
+            if (Rating == null)
             {
                 return HttpNotFound();
             }
-            return View(rating);
+            return View(new RatingViewModel(Rating));
         }
 
         // POST: Ratings/Edit/5
@@ -81,15 +88,15 @@ namespace Repository.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Description,Name,RateValue")] Rating rating)
+        public async Task<ActionResult> Edit(RatingViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                db.Update(rating);
+                db.Update(viewModel.GetModel());
                 db.Save();
                 return RedirectToAction("Index");
             }
-            return View(rating);
+            return View(viewModel);
         }
 
         // GET: Ratings/Delete/5
@@ -99,12 +106,12 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Rating rating = db.GetById(id);
-            if (rating == null)
+            Rating Rating = db.GetById(id);
+            if (Rating == null)
             {
                 return HttpNotFound();
             }
-            return View(rating);
+            return View(new RatingViewModel(Rating));
         }
 
         // POST: Ratings/Delete/5
