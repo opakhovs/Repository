@@ -183,6 +183,9 @@
     <Compile Include="Viewmodels\ProjectViewModel.cs" />
     <Compile Include="Viewmodels\PropertyViewModel.cs" />
     <Compile Include="Viewmodels\RatingViewModel.cs" />
+    <Compile Include="Viewmodels\SubTasksViewModels\CreateViewModel.cs" />
+    <Compile Include="Viewmodels\SubTasksViewModels\IndexViewModel.cs" />
+    <Compile Include="Viewmodels\SubTasksViewModels\SubTaskViewModel.cs" />
     <Compile Include="Viewmodels\TagViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
