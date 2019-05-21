@@ -11,7 +11,7 @@ namespace Repository.Services
     public class ArtifactSortService
     {
   
-        public List<Artifact> SortByPropertiesOneOfEachCategory(IEnumerable<Artifact> artifacts, List<IDataSource<ArtifactProperty>> listOfRepositories, int[] selectedProperties)
+        public List<Artifact> SortByPropertiesOneOfEachCategory(IEnumerable<Artifact> artifacts, List<SubTask> subTasks, List<IDataSource<ArtifactProperty>> listOfRepositories, int[] selectedProperties, int [] selectedSubtasks)
         {
             List<Artifact> artifactModels = artifacts.ToList();
             if (selectedProperties == null)
@@ -56,10 +56,11 @@ namespace Repository.Services
                     }
                 }
             }
+
             return artifactModels;
         }
 
-        public List<Artifact> SortByPropertiesAllInEachCategory(IEnumerable<Artifact> artifacts, int[] selectedProperties)
+        public List<Artifact> SortByPropertiesAllInEachCategory(IEnumerable<Artifact> artifacts, List<SubTask> subTasks, int[] selectedProperties, int[] selectedSubtasks)
         {
             List<Artifact> artifactModels = artifacts.ToList();
             if (selectedProperties == null)
@@ -83,6 +84,18 @@ namespace Repository.Services
                     artifactsResult.Add(artifact);
             }
             return artifactsResult;
+        }
+
+        private List<Artifact> chooseArtifactsWithNeededSubTasks(List<Artifact> artifactModels, List<SubTask> subTasks, int[] selectedSubtasks)
+        {
+            foreach(Artifact artifact in artifactModels)
+            {
+                /*foreach ()
+                {
+
+                }*/
+            }
+            return artifactModels;
         }
     }
 }
