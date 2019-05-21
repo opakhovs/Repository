@@ -7,24 +7,46 @@
 <h2>Index</h2>
 @using (Html.BeginForm("Index", "Artifacts", FormMethod.Post))
 {
-    @Html.LabelFor(model => model.ArtTypes, htmlAttributes: new { @class = "control-label col-md-2" })
-    @Html.ListBoxFor(model => model.SelectedProperties, Model.ArtTypes, new { size = 4 })
+    <div class="center-container">
+        <div class="column">
+            <div class="search-label">
+                @Html.LabelFor(model => model.ArtTypes)
+            </div>
+            @Html.ListBoxFor(model => model.SelectedProperties, Model.ArtTypes, new { size = 4 })
+        </div>
 
-    @Html.LabelFor(model => model.ProblemDomains, htmlAttributes: new { @class = "control-label col-md-2" })
-    @Html.ListBoxFor(model => model.SelectedProperties, Model.ProblemDomains, new { size = 4 })
+        <div class="column">
+            <div class="search-label">
+                @Html.LabelFor(model => model.ProblemDomains)
+            </div>
+            @Html.ListBoxFor(model => model.SelectedProperties, Model.ProblemDomains, new { size = 4 })
+        </div>
 
-    @Html.LabelFor(model => model.Projects, htmlAttributes: new { @class = "control-label col-md-2" })
-    @Html.ListBoxFor(model => model.SelectedProperties, Model.Projects, new { size = 4 })
+        <div class="column">
+            <div class="search-label">
+                @Html.LabelFor(model => model.Projects)
+            </div>
+            @Html.ListBoxFor(model => model.SelectedProperties, Model.Projects, new { size = 4 })
+        </div>
 
-    @Html.LabelFor(model => model.Ratings, htmlAttributes: new { @class = "control-label col-md-2" })
-    @Html.ListBoxFor(model => model.SelectedProperties, Model.Ratings, new { size = 4 })
-    //@Html.ListBoxFor(model => model.SelectedProperties, Model.SubTasks, new { size = 4 })
+        <div class="column">
+            <div class="search-label">
+                @Html.LabelFor(model => model.Ratings)
+            </div>
+            @Html.ListBoxFor(model => model.SelectedProperties, Model.Ratings, new { size = 4 })
+        </div>
+        @*@Html.ListBoxFor(model => model.SelectedProperties, Model.SubTasks, new { size = 4 })*@
 
-    @Html.LabelFor(model => model.Tags, htmlAttributes: new { @class = "control-label col-md-2" })
-    @Html.ListBoxFor(model => model.SelectedProperties, Model.Tags, new { size = 4 })
-    
-    @Html.RadioButtonFor(model => model.isAllMatchesSelected, "AllMatches")<text>AllMatches</text>
-    @Html.RadioButtonFor(model => model.isAllMatchesSelected, "AnyCategoryMatches")<text>AnyCategoryMatches</text>
+        <div class="column">
+            <div class="search-label">
+                @Html.LabelFor(model => model.Tags)
+            </div>
+            @Html.ListBoxFor(model => model.SelectedProperties, Model.Tags, new { size = 4 })
+        </div>
+    </div>
+
+    <div class="center-block">@Html.RadioButtonFor(model => model.isAllMatchesSelected, "AllMatches")<text>All matches</text></div>
+    <div class="center-block">@Html.RadioButtonFor(model => model.isAllMatchesSelected, "AnyCategoryMatches")<text>Any category matches</text></div>
 
     <input type="submit" value="Search" />
 }
@@ -60,3 +82,28 @@
     }
 
 </table>
+
+<style>
+    form {
+        margin: 50px 0;
+    }
+
+    .center-container{
+        display: block;
+        width: 100%;
+        height: 100px;
+    }
+    .column {
+        float: left;
+        display: inline-block;
+        margin-right: 20px;
+    }
+
+        .column select {
+            width: 130px;
+        }
+
+    .search-label {
+        display: block;
+    }
+</style>
