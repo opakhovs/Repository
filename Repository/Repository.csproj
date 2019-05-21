@@ -258,16 +258,16 @@
     <Content Include="Views\Ratings\Details.cshtml" />
     <Content Include="Views\Ratings\Edit.cshtml" />
     <Content Include="Views\Ratings\Index.cshtml" />
-    <Content Include="Views\SubTasks\Create.cshtml" />
-    <Content Include="Views\SubTasks\Delete.cshtml" />
-    <Content Include="Views\SubTasks\Details.cshtml" />
-    <Content Include="Views\SubTasks\Edit.cshtml" />
-    <Content Include="Views\SubTasks\Index.cshtml" />
     <Content Include="Views\Tags\Create.cshtml" />
     <Content Include="Views\Tags\Delete.cshtml" />
     <Content Include="Views\Tags\Details.cshtml" />
     <Content Include="Views\Tags\Edit.cshtml" />
     <Content Include="Views\Tags\Index.cshtml" />
+    <Content Include="Views\SubTasks\Create.cshtml" />
+    <Content Include="Views\SubTasks\Delete.cshtml" />
+    <Content Include="Views\SubTasks\Details.cshtml" />
+    <Content Include="Views\SubTasks\Edit.cshtml" />
+    <Content Include="Views\SubTasks\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
