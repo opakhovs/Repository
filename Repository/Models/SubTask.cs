@@ -7,5 +7,6 @@ namespace Repository.Models
 {
     public class SubTask : Property
     {
+        public List<SubTask> SubTasks { get; set; }
     }
 }
