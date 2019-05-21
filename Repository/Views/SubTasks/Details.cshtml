@@ -26,6 +26,17 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.SubTasks)
+        </dt>
+
+        <dd>
+            @foreach (var c in Model.SubTasks)
+            {
+                @Html.DisplayFor(model => c.Name)<br />
+            }
+        </dd>
+
     </dl>
 </div>
 <p>

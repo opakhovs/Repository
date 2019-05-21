@@ -56,6 +56,7 @@ namespace Repository.Services
                     }
                 }
             }
+
             return artifactModels;
         }
 
@@ -83,6 +84,18 @@ namespace Repository.Services
                     artifactsResult.Add(artifact);
             }
             return artifactsResult;
+        }
+
+        private List<Artifact> chooseArtifactsWithNeededSubTasks(List<Artifact> artifactModels, List<SubTask> subTasks, int[] selectedSubtasks)
+        {
+            foreach(Artifact artifact in artifactModels)
+            {
+                /*foreach ()
+                {
+
+                }*/
+            }
+            return artifactModels;
         }
     }
 }

@@ -8,12 +8,26 @@ using System.Web;
 using System.Web.Mvc;
 using Repository.Models;
 using Repository.Repositories;
+using Repository.Repositories.Implementations;
+using Repository.Repositories.Interfaces;
+using Repository.Viewmodels.SubTasksViewModels;
 
 namespace Repository.Controllers
 {
     public class SubTasksController : Controller
     {
+        private ISubTaskRepository subTaskRep;
         private SQLContext db = new SQLContext();
+
+        public SubTasksController()
+        {
+            subTaskRep = new SubTaskRepository(db);
+        }
+
+        private ISubTaskRepository SubTaskRepository()
+        {
+            throw new NotImplementedException();
+        }
 
         // GET: SubTasks
         public ActionResult Index()
@@ -39,7 +53,16 @@ namespace Repository.Controllers
         // GET: SubTasks/Create
         public ActionResult Create()
         {
-            return View();
+            CreateViewModel viewModel = new CreateViewModel();
+           
+            var subTasks = subTaskRep.GetAll().Select(c => new SubTask
+            {
+                Id = c.Id,
+                Name = c.Name
+            }).ToList();
+            viewModel.SubTasks = subTasks;
+
+            return View(viewModel);
         }
 
         // POST: SubTasks/Create
@@ -47,16 +70,29 @@ namespace Repository.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Description,Name")] SubTask subTask)
+        public ActionResult Create([Bind(Include = "Id,Description,Name,SubTaskIds")] CreateViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                db.SubTasks.Add(subTask);
+                SubTask subTask = new SubTask() { Name = viewModel.Name, Description = viewModel.Description };
+            
+                var listOfIndexes = viewModel?.SubTaskIds?.ToList();
+
+                if (listOfIndexes != null)
+                {
+                    subTask.SubTasks.AddRange(listOfIndexes
+                    .SelectMany(i => subTaskRep.GetAll()
+                    .Where(p => p.Id == i)));
+                }
+
+                SubTask newSubTask = subTask;
+
+                db.SubTasks.Add(newSubTask);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(subTask);
+            return View(viewModel);
         }
 
         // GET: SubTasks/Edit/5
@@ -79,7 +115,7 @@ namespace Repository.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Description,Name")] SubTask subTask)
+        public ActionResult Edit([Bind(Include = "Id,Description,Name,SubTaskIds")] SubTask subTask)
         {
             if (ModelState.IsValid)
             {
