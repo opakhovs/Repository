@@ -178,6 +178,9 @@
     <Compile Include="Viewmodels\ArtifactsViewModels\ArtifactViewModel.cs" />
     <Compile Include="Viewmodels\ArtifactsViewModels\CreateViewModel.cs" />
     <Compile Include="Viewmodels\ArtifactsViewModels\IndexViewModel.cs" />
+    <Compile Include="Viewmodels\SubTasksViewModels\CreateViewModel.cs" />
+    <Compile Include="Viewmodels\SubTasksViewModels\IndexViewModel.cs" />
+    <Compile Include="Viewmodels\SubTasksViewModels\SubTaskViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Antlr3.Runtime.dll" />

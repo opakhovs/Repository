@@ -26,7 +26,7 @@ namespace Repository.Controllers
         private IProblemDomainRepository problemDomainRep;
         private IProjectRepository projectRep;
         private IRatingRepository raitingRep;
-        //private ISubTaskRepository subTaskRep;
+        private ISubTaskRepository subTaskRep;
         private ITagRepository tagRepository;
         private IArtifactPropertyRepository artPropertyRep;
 
@@ -37,7 +37,7 @@ namespace Repository.Controllers
             problemDomainRep = new ProblemDomainRepository(context);
             projectRep = new ProjectRepository(context);
             raitingRep = new RatingRepository(context);
-            //subTaskRep = new SubTaskRepository(context);
+            subTaskRep = new SubTaskRepository(context);
             tagRepository = new TagRepository(context);
             artPropertyRep = new ArtifactTypeRepository(context);
         }

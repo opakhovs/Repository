@@ -25,8 +25,7 @@ namespace Repository.Viewmodels.ArtifactsViewModels
         public int ArtifactTypeId { get; set; }
         public int[] SelectedIds { get; set; }
 
-
-        //public int[] SubTaskIds { get; set; }
-        //public List<SubTask> SubTasks { get; set; }
+        public int[] SubTaskIds { get; set; }
+        public List<SubTask> SubTasks { get; set; }
     }
 }
