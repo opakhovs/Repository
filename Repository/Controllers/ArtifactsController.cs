@@ -13,6 +13,7 @@ using Repository.Repositories.Implementations;
 using Repository.Viewmodels.ArtifactsViewModels;
 using Repository.Repositories;
 using Repository.Services;
+using Repository.Viewmodels;
 
 namespace Repository.Controllers
 {
@@ -52,7 +53,7 @@ namespace Repository.Controllers
 
             foreach (var x in artifactRep.GetAll())
             {
-                listForViewModel.Add(new ArtifactViewModel() { ArtifactId = x.ArtifactId, DateOfAdding = x.DateOfAdding, Version = x.Version });
+                listForViewModel.Add(new ArtifactViewModel() { ArtifactId = x.ArtifactId, DateOfAdding = x.DateOfAdding, Version = x.Version, ArtType = x.Properties.First().Name });
             }
 
             viewModel.Artifacts = listForViewModel;
@@ -78,7 +79,7 @@ namespace Repository.Controllers
 
             foreach (var x in resultOfSearch)
             {
-                listForViewModel.Add(new ArtifactViewModel() { ArtifactId = x.ArtifactId, DateOfAdding = x.DateOfAdding, Version = x.Version });
+                listForViewModel.Add(new ArtifactViewModel() { ArtifactId = x.ArtifactId, DateOfAdding = x.DateOfAdding, Version = x.Version, ArtType = x.Properties.First().Name });
             }
 
             viewModel.Artifacts = listForViewModel;
@@ -155,7 +156,37 @@ namespace Repository.Controllers
             {
                 return HttpNotFound();
             }
-            return View(artifact);
+
+            return View(new ArtifactViewModel() { ArtifactId = artifact.ArtifactId, DateOfAdding = artifact.DateOfAdding, Version = artifact.Version, Properties = GetVmList(artifact.Properties)});
+        }
+
+        private List<PropertyViewModel> GetVmList(List<ArtifactProperty> properties)
+        {
+            var listOfVmProps = new List<PropertyViewModel>();
+
+            foreach (var x in properties)
+            {
+                switch (x)
+                {
+                    case ArtType artType:
+                        listOfVmProps.Add(new ArtTypeViewModel(x as ArtType));
+                        break;
+                    case ProblemDomain problemDomain:
+                        listOfVmProps.Add(new ProblemDomainViewModel(x as ProblemDomain));
+                        break;
+                    case Project project:
+                        listOfVmProps.Add(new ProjectViewModel(x as Project));
+                        break;
+                    case Rating rating:
+                        listOfVmProps.Add(new RatingViewModel(x as Rating));
+                        break;
+                    case Tag tag:
+                        listOfVmProps.Add(new TagViewModel(x as Tag));
+                        break;
+                }
+            }
+
+            return listOfVmProps;
         }
 
         // GET: Artifacts/Create
@@ -217,12 +248,17 @@ namespace Repository.Controllers
             if (ModelState.IsValid)
             {
                 Artifact artifact = new Artifact() { Version = viewModel.Version, DateOfAdding = viewModel.DateOfAdding };
-                var listOfIndexes = viewModel.SelectedIds.ToList();
+                var listOfIndexes = viewModel.SelectedIds;
 
                 artifact.Properties.Add(artPropertyRep.GetById(viewModel.ArtifactTypeId));
-                artifact.Properties.AddRange(listOfIndexes
-                    .SelectMany(i => artPropertyRep.GetAll()
-                    .Where(p => p.Id == i)));
+
+                if (listOfIndexes != null)
+                { 
+                    artifact.Properties.AddRange(listOfIndexes
+                        .ToList()
+                        .SelectMany(i => artPropertyRep.GetAll()
+                        .Where(p => p.Id == i)));
+                }
 
                 Artifact newArtifact = artifact;
 

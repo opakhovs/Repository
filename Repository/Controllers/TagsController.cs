@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using Repository.Models;
 using Repository.Repositories.Interfaces;
 using Repository.Repositories.Implementations;
+using Repository.Viewmodels;
 
 namespace Repository.Controllers
 {
@@ -18,9 +19,16 @@ namespace Repository.Controllers
         private ITagRepository db = new TagRepository(new Repositories.SQLContext());
 
         // GET: Tags
+
         public async Task<ActionResult> Index()
         {
-            return View(db.GetAll());
+            List<TagViewModel> list = new List<TagViewModel>();
+            foreach (var i in db.GetAll())
+            {
+                list.Add(new TagViewModel(i));
+            }
+
+            return View(list);
         }
 
         // GET: Tags/Details/5
@@ -30,12 +38,12 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tag tag = db.GetById(id);
-            if (tag == null)
+            Tag Tag = db.GetById(id);
+            if (Tag == null)
             {
                 return HttpNotFound();
             }
-            return View(tag);
+            return View(new TagViewModel());
         }
 
         // GET: Tags/Create
@@ -49,16 +57,16 @@ namespace Repository.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Description,Name,TagUsage")] Tag tag)
+        public async Task<ActionResult> Create(TagViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                db.Add(tag);
+                db.Add(viewModel.GetModel());
                 db.Save();
                 return RedirectToAction("Index");
             }
 
-            return View(tag);
+            return View(viewModel);
         }
 
         // GET: Tags/Edit/5
@@ -68,12 +76,12 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tag tag = db.GetById(id);
-            if (tag == null)
+            Tag Tag = db.GetById(id);
+            if (Tag == null)
             {
                 return HttpNotFound();
             }
-            return View(tag);
+            return View(new TagViewModel(Tag));
         }
 
         // POST: Tags/Edit/5
@@ -81,15 +89,15 @@ namespace Repository.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Description,Name,TagUsage")] Tag tag)
+        public async Task<ActionResult> Edit(TagViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                db.Update(tag);
+                db.Update(viewModel.GetModel());
                 db.Save();
                 return RedirectToAction("Index");
             }
-            return View(tag);
+            return View(viewModel);
         }
 
         // GET: Tags/Delete/5
@@ -99,12 +107,12 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tag tag = db.GetById(id);
-            if (tag == null)
+            Tag Tag = db.GetById(id);
+            if (Tag == null)
             {
                 return HttpNotFound();
             }
-            return View(tag);
+            return View(new TagViewModel(Tag));
         }
 
         // POST: Tags/Delete/5

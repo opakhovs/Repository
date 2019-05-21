@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using Repository.Models;
 using Repository.Repositories.Interfaces;
 using Repository.Repositories.Implementations;
+using Repository.Viewmodels;
 
 namespace Repository.Controllers
 {
@@ -20,7 +21,13 @@ namespace Repository.Controllers
         // GET: Projects
         public async Task<ActionResult> Index()
         {
-            return View(db.GetAll());
+            List<ProjectViewModel> list = new List<ProjectViewModel>();
+            foreach (var i in db.GetAll())
+            {
+                list.Add(new ProjectViewModel(i));
+            }
+
+            return View(list);
         }
 
         // GET: Projects/Details/5
@@ -30,12 +37,12 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = db.GetById(id);
-            if (project == null)
+            Project Project = db.GetById(id);
+            if (Project == null)
             {
                 return HttpNotFound();
             }
-            return View(project);
+            return View(new ProjectViewModel(Project));
         }
 
         // GET: Projects/Create
@@ -49,16 +56,16 @@ namespace Repository.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Description,Name,ProjectOwner,LastRelease")] Project project)
+        public async Task<ActionResult> Create(ProjectViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                db.Add(project);
+                db.Add(viewModel.GetModel());
                 db.Save();
                 return RedirectToAction("Index");
             }
 
-            return View(project);
+            return View(viewModel);
         }
 
         // GET: Projects/Edit/5
@@ -68,12 +75,12 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = db.GetById(id);
-            if (project == null)
+            Project Project = db.GetById(id);
+            if (Project == null)
             {
                 return HttpNotFound();
             }
-            return View(project);
+            return View(new ProjectViewModel(Project));
         }
 
         // POST: Projects/Edit/5
@@ -81,15 +88,15 @@ namespace Repository.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Description,Name,ProjectOwner,LastRelease")] Project project)
+        public async Task<ActionResult> Edit(ProjectViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                db.Update(project);
+                db.Update(viewModel.GetModel());
                 db.Save();
                 return RedirectToAction("Index");
             }
-            return View(project);
+            return View(viewModel);
         }
 
         // GET: Projects/Delete/5
@@ -99,12 +106,12 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = db.GetById(id);
-            if (project == null)
+            Project Project = db.GetById(id);
+            if (Project == null)
             {
                 return HttpNotFound();
             }
-            return View(project);
+            return View(new ProjectViewModel(Project));
         }
 
         // POST: Projects/Delete/5

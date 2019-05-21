@@ -178,6 +178,12 @@
     <Compile Include="Viewmodels\ArtifactsViewModels\ArtifactViewModel.cs" />
     <Compile Include="Viewmodels\ArtifactsViewModels\CreateViewModel.cs" />
     <Compile Include="Viewmodels\ArtifactsViewModels\IndexViewModel.cs" />
+    <Compile Include="Viewmodels\ArtTypeViewModel.cs" />
+    <Compile Include="Viewmodels\ProblemDomainViewModel.cs" />
+    <Compile Include="Viewmodels\ProjectViewModel.cs" />
+    <Compile Include="Viewmodels\PropertyViewModel.cs" />
+    <Compile Include="Viewmodels\RatingViewModel.cs" />
+    <Compile Include="Viewmodels\TagViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Antlr3.Runtime.dll" />
