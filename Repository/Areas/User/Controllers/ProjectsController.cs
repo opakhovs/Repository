@@ -9,13 +9,23 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Repository.Models;
+using Repository.Repositories;
 
 namespace Repository.Areas.User.Controllers
 {
     public class ProjectsController : Controller
     {
         // GET: User/Projects
-        private IProjectRepository db = new ProjectRepository(new Repositories.SQLContext());
+        private SQLContext context = new SQLContext();
+        private IProjectRepository db;
+        private IArtifactRepository dbArtifacts;
+
+        public ProjectsController()
+        {
+            db = new ProjectRepository(context);
+            dbArtifacts = new ArtifactRepository(context);
+
+        }
 
         // GET: Projects
         public async Task<ActionResult> Index()
@@ -47,7 +57,13 @@ namespace Repository.Areas.User.Controllers
         // GET: Projects/Create
         public ActionResult Create()
         {
-            return View();
+            ProjectViewModel viewModel = new ProjectViewModel();
+            viewModel.Artifacts = dbArtifacts.GetAll().Select(c => new Artifact
+            {
+                ArtifactId = c.ArtifactId,
+                Properties = c.Properties
+            }).ToList();
+            return View(viewModel);
         }
 
         // POST: Projects/Create
@@ -59,7 +75,16 @@ namespace Repository.Areas.User.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Add(viewModel.GetModel());
+                var project = viewModel.GetModel();
+                var listOfIndexes = viewModel?.SelectedIds?.ToList();
+
+                if (listOfIndexes != null)
+                {
+                    project.Artifacts.AddRange(listOfIndexes
+                    .SelectMany(i => dbArtifacts.GetAll()
+                    .Where(p => p.ArtifactId == i)));
+                }
+                db.Add(project);
                 db.Save();
                 return RedirectToAction("Index");
             }
