@@ -1,6 +1,6 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
-    Layout = "~/Views/Shared/_MainPageLayout.cshtml";
+    ViewBag.Title = "Home User Page";
+    Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
 }
 
 <div class="jumbotron">
@@ -15,7 +15,7 @@
         <p>
             Try to create your first artifact type!
         </p>
-        @Html.ActionLink("Start", "Create", new { controller="ArtTypes"}, new { @class="btn btn-default"})
+        @Html.ActionLink("Start", "Create", new { controller = "ArtTypes" }, new { @class = "btn btn-default" })
     </div>
     <div class="col-md-6">
         <h2>Get more rools</h2>
