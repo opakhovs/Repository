@@ -1,24 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using Repository.Models;
-using Repository.Repositories.Interfaces;
-using Repository.Repositories.Implementations;
-using Repository.Viewmodels.ArtifactsViewModels;
+﻿using Repository.Models;
 using Repository.Repositories;
+using Repository.Repositories.Implementations;
+using Repository.Repositories.Interfaces;
 using Repository.Services;
 using Repository.Viewmodels;
+using Repository.Viewmodels.ArtifactsViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
-namespace Repository.Controllers
+namespace Repository.Areas.User.Controllers
 {
     public class ArtifactsController : Controller
     {
+        // GET: User/Artifacts
         private static readonly int NumberOfPropertyKinds = 5;
 
         private SQLContext context = new SQLContext();
@@ -68,7 +67,7 @@ namespace Repository.Controllers
             var allMatchesSelected = viewModel.isAllMatchesSelected;
 
             ArtifactSortService sortService = new ArtifactSortService();
-            
+
             List<Artifact> resultOfSearch;
             if (allMatchesSelected == "AllMatches")
                 resultOfSearch = sortService.SortByPropertiesAllInEachCategory(artifactRep.GetAll(), viewModel.SelectedProperties);
@@ -156,7 +155,7 @@ namespace Repository.Controllers
                 return HttpNotFound();
             }
 
-            return View(new ArtifactViewModel() { ArtifactId = artifact.ArtifactId, DateOfAdding = artifact.DateOfAdding, Version = artifact.Version, Properties = GetVmList(artifact.Properties)});
+            return View(new ArtifactViewModel() { ArtifactId = artifact.ArtifactId, DateOfAdding = artifact.DateOfAdding, Version = artifact.Version, Properties = GetVmList(artifact.Properties) });
         }
 
         private List<PropertyViewModel> GetVmList(List<ArtifactProperty> properties)
@@ -249,7 +248,7 @@ namespace Repository.Controllers
                 artifact.Properties.Add(artPropertyRep.GetById(viewModel.ArtifactTypeId));
 
                 if (listOfIndexes != null)
-                { 
+                {
                     artifact.Properties.AddRange(listOfIndexes
                         .ToList()
                         .SelectMany(i => artPropertyRep.GetAll()

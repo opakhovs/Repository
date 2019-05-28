@@ -23,6 +23,8 @@ namespace Repository.Viewmodels
         [Display(Name = "Last release of project")]
         [DataType(DataType.Date)]
         public DateTime LastRelease { get; set; }
+
+        public List<Artifact> Artifacts { get; set; }
         public ProjectViewModel()
         {
 
@@ -34,11 +36,12 @@ namespace Repository.Viewmodels
             Name = model.Name;
             ProjectOwner = model.ProjectOwner;
             LastRelease = model.LastRelease;
+            Artifacts = model.Artifacts;
         }
 
         public Project GetModel()
         {
-            return new Project() { Id = this.Id, Name = this.Name, Description = this.Description, ProjectOwner = this.ProjectOwner, LastRelease = this.LastRelease };
+            return new Project() { Id = this.Id, Name = this.Name, Description = this.Description, ProjectOwner = this.ProjectOwner, LastRelease = this.LastRelease, Artifacts = this.Artifacts };
         }
     }
 }
