@@ -41,6 +41,16 @@
         <dd>
             @Html.DisplayFor(model => model.Description)
         </dd>
+
+        <dd>
+            @Html.LabelFor(x => Model.Artifacts, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-5">
+                @Html.DropDownListFor(x => x.Artifacts, Model.Artifacts.Select(x => new SelectListItem { Text = x.de, Value = x.ArtifactId.ToString()}),
+                                                htmlAttributes: new { @class = "form-control", id = "Projects", @multiple = true })
+                @Html.ValidationMessageFor(x => x.Artifacts, "", new { @class = "text-danger" })
+            </div>
+        </dd>
+
     </dl>
 </div>
 <p>
