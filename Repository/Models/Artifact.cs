@@ -12,5 +12,7 @@ namespace Repository.Models
         public string Version { get; set; }
 
         public virtual List<ArtifactProperty> Properties { get; set; } = new List<ArtifactProperty>();
+        public virtual List<Project> Projects { get; set; } = new List<Project>();
+
     }
 }

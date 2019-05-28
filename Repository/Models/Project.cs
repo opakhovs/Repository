@@ -16,6 +16,6 @@ namespace Repository.Models
         public string ProjectOwner { get; set; }
         public DateTime LastRelease { get; set; }
 
-        public virtual List<Artifact> Artifacts { get; set; }
+        public virtual List<Artifact> Artifacts { get; set; } = new List<Artifact>();
     }
 }
