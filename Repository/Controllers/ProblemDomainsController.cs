@@ -12,13 +12,21 @@ using Repository.Repositories.Interfaces;
 using Repository.Repositories.Implementations;
 using Repository.Viewmodels;
 using Repository.Viewmodels.ProblemDomainViewModels;
+using Repository.Repositories;
 
 namespace Repository.Controllers
 {
     public class ProblemDomainsController : Controller
     {
-        private IProblemDomainRepository db = new ProblemDomainRepository(new Repositories.SQLContext());
-        private ISubTaskRepository dbSubTask = new SubTaskRepository(new Repositories.SQLContext());
+        private SQLContext context = new SQLContext();
+        private IProblemDomainRepository db;
+        private ISubTaskRepository dbSubTask;
+
+        public ProblemDomainsController()
+        {
+            db = new ProblemDomainRepository(context);
+            dbSubTask = new SubTaskRepository(context);
+        }
 
         // GET: ProblemDomains
         public async Task<ActionResult> Index()
@@ -40,8 +48,8 @@ namespace Repository.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProblemDomain ProblemDomain = db.GetById(id);
-            if (ProblemDomain == null)
+            ProblemDomain problemDomain = db.GetById(id);
+            if (problemDomain == null)
             {
                 return HttpNotFound();
             }
@@ -50,7 +58,7 @@ namespace Repository.Controllers
             model.SubTasks = problemDomain.SubTasks;
             model.SubTaskIds = problemDomain.SubTasks.Select(x => x.Id).ToArray();
             return View(model);
-            return View(new ProblemDomainViewModel(ProblemDomain));
+           // return View(new ProblemDomainViewModel(ProblemDomain));
         }
 
         // GET: ProblemDomains/Create
@@ -72,7 +80,7 @@ namespace Repository.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(CreateProblemDomainViewModel model)
-        public async Task<ActionResult> Create(ProblemDomainViewModel viewModel)
+        //public async Task<ActionResult> Create(ProblemDomainViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
@@ -86,13 +94,11 @@ namespace Repository.Controllers
                 }
 
                 db.Add(domain);
-                db.Add(viewModel.GetModel());
                 db.Save();
                 return RedirectToAction("Index");
             }
 
             return View(model);
-            return View(viewModel);
         }
 
         // GET: ProblemDomains/Edit/5

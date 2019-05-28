@@ -85,9 +85,8 @@ namespace Repository.Controllers
                     .Where(p => p.Id == i)));
                 }
 
-                SubTask newSubTask = subTask;
 
-                db.SubTasks.Add(newSubTask);
+                db.SubTasks.Add(subTask);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
