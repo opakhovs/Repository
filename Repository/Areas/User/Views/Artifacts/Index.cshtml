@@ -1,0 +1,138 @@
+﻿@model Repository.Viewmodels.ArtifactsViewModels.IndexViewModel
+
+@{
+    ViewBag.Title = "List of artifacts of the repository";
+    Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List of artifacts of the repository</h2>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@using (Html.BeginForm("Index", "Artifacts", FormMethod.Post))
+{
+    <h4 style="margin-bottom: 15px">
+        Search criteria
+    </h4>
+    <div class="center-container">
+        <div class="column">
+            <div class="search-label">
+                @Html.Label("Artifact types")
+            </div>
+            @Html.ListBoxFor(model => model.SelectedProperties, Model.ArtTypes, new { size = 4 })
+        </div>
+
+        <div class="column">
+            <div class="search-label">
+                @Html.Label("Problem domains")
+            </div>
+            @Html.ListBoxFor(model => model.SelectedProperties, Model.ProblemDomains, new { size = 4 })
+        </div>
+
+        <div class="column">
+            <div class="search-label">
+                @Html.Label("Projects")
+            </div>
+            @Html.ListBoxFor(model => model.SelectedProperties, Model.Projects, new { size = 4 })
+        </div>
+
+        <div class="column">
+            <div class="search-label">
+                @Html.Label("Ratings")
+            </div>
+            @Html.ListBoxFor(model => model.SelectedProperties, Model.Ratings, new { size = 4 })
+        </div>
+        @*@Html.ListBoxFor(model => model.SelectedProperties, Model.SubTasks, new { size = 4 })*@
+
+        <div class="column">
+            <div class="search-label">
+                @Html.Label("Tags")
+            </div>
+            @Html.ListBoxFor(model => model.SelectedProperties, Model.Tags, new { size = 4 })
+        </div>
+    </div>
+
+    <div class="center-container">
+        <h4>
+            Search type
+        </h4>
+        <div class="column">
+            @Html.RadioButtonFor(model => model.isAllMatchesSelected, "AllMatches")<text>All matches</text>
+        </div>
+        <div class="column">
+            @Html.RadioButtonFor(model => model.isAllMatchesSelected, "AnyCategoryMatches")<text>Any category matches</text>
+        </div>
+
+        <div class="center-container">
+            <input type="submit" value="Search" class="submitButton"/>
+        </div>
+    </div>
+}
+<table class="table" style="margin-top: 15px;">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Artifacts.FirstOrDefault().ArtType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Artifacts.FirstOrDefault().DateOfAdding)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Artifacts.FirstOrDefault().Version)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Artifacts)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ArtType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfAdding)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Version)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ArtifactId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ArtifactId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ArtifactId })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<style>
+    form {
+        margin: 50px 0 0 0;
+    }
+
+    .center-container {
+        display: inline-block;
+        width: 100%;
+        height: 100px;
+        margin-bottom: 10px;
+    }
+
+    .column {
+        float: left;
+        display: inline-block;
+        margin-right: 20px;
+    }
+
+        .column select {
+            width: 130px;
+            height: 70px;
+        }
+
+    .search-label {
+        display: block;
+    }
+
+    .submitButton{
+        margin: 10px 0;
+    }
+</style>
