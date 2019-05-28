@@ -11,12 +11,22 @@ using Repository.Models;
 using Repository.Repositories.Interfaces;
 using Repository.Repositories.Implementations;
 using Repository.Viewmodels;
+using Repository.Repositories;
 
 namespace Repository.Controllers
 {
     public class ProjectsController : Controller
     {
-        private IProjectRepository db = new ProjectRepository(new Repositories.SQLContext());
+        private SQLContext context = new SQLContext();
+        private IProjectRepository db;
+        private IArtifactRepository dbArtifacts; 
+
+        public ProjectsController()
+        {
+            db = new ProjectRepository(context);
+            dbArtifacts= new ArtifactRepository(context);
+
+        }
 
         // GET: Projects
         public async Task<ActionResult> Index()
@@ -48,7 +58,13 @@ namespace Repository.Controllers
         // GET: Projects/Create
         public ActionResult Create()
         {
-            return View();
+            ProjectViewModel viewModel = new ProjectViewModel();
+            viewModel.Artifacts = dbArtifacts.GetAll().Select(c => new Artifact
+            {
+                ArtifactId = c.ArtifactId,
+                Properties = c.Properties
+            }).ToList();
+            return View(viewModel);
         }
 
         // POST: Projects/Create

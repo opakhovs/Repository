@@ -24,7 +24,10 @@ namespace Repository.Viewmodels
         [DataType(DataType.Date)]
         public DateTime LastRelease { get; set; }
 
-        public List<Artifact> Artifacts { get; set; }
+
+        public List<Artifact> Artifacts { get; set; } = new List<Artifact>();
+        public int[] SelectedIds { get; set; }
+
         public ProjectViewModel()
         {
 
