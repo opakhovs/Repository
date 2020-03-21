@@ -46,6 +46,8 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
- 
+    <script type="text/javascript" src="@Url.Content("/Scripts/analytic.js")"></script>
+    @RenderSection("JavaScript", required: false)
+
 </body>
 </html>
