@@ -20,7 +20,7 @@
     <div class="col-md-6">
         <h2>Get more rools</h2>
         <p>Check some tools related with software artifacts management</p>
-        <p><a target="_blank" onClick="pageTracker._setVar('label');" class="btn btn-default" href="https://assessment-tools.ca.com/tools/continuous-delivery-tools/en/artefact-repository-management">Learn more &raquo;</a></p>
+        <p><a target="_blank" onClick="ga('set', 'dimension1', dimensionValue);" class="btn btn-default" href="https://assessment-tools.ca.com/tools/continuous-delivery-tools/en/artefact-repository-management">Learn more &raquo;</a></p>
     </div>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161429060-1"></script>
     <script>
@@ -30,6 +30,8 @@
 
         gtag('config', 'UA-161429060-1');
         gtag('create', 'UA-161429060-1', 'auto', 'buttonTracker');
+        var dimensionValue = 'ButtonClick';
+        ga('set', 'dimension1', dimensionValue);
     </script>
     <script type="text/javascript">
         var gaJsHost = (("https:" == document.location.protocol) ?
