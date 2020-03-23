@@ -20,7 +20,7 @@
     <div class="col-md-6">
         <h2>Get more rools</h2>
         <p>Check some tools related with software artifacts management</p>
-        <p><a target="_blank" onClick="handleOutboundLinkClicks()" 
+        <p><a target="_blank" onClick="handleOutboundLinkClicks" 
               class="btn btn-default" href="https://assessment-tools.ca.com/tools/continuous-delivery-tools/en/artefact-repository-management">Learn more &raquo;</a></p>
     </div>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161429060-1"></script>
@@ -40,17 +40,12 @@
             'exFatal': false
     });
     </script>
-    <script type="text/javascript">
-        var gaJsHost = (("https:" == document.location.protocol) ?
-        "https://ssl." : "http://www.");
-        document.write(unescape("%3Cscript src=’" + gaJsHost + "googleanalytics.com/ga.js’ type=’text/javascript’%3E%3C/script%3E"));
-    </script>
-    <script type="text/javascript">
-        try{
-        var pageTracker = _gat._getTracker('UA-161429060-1');
-        pageTracker._trackPageview();
-        pageTracker._setVar("label");
-        } catch(err) {}
+    <script>
+        function handleOutboundLinkClicks() {
+            ga('send', 'event', 'category', 'action', {
+                'dimension1': 'ButtonClick'
+            });
+        };
     </script>
     <script type="text/javascript" src="@Url.Content("/Scripts/analytic.js")"></script>
 </div>

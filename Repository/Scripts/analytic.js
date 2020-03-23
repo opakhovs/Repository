@@ -7,12 +7,3 @@
       
         gtag('config', 'UA-161429060-1');
 </script>
-<script>
-    function handleOutboundLinkClicks(event) {
-    ga('send', 'event', {
-        eventCategory: 'Outbound Link',
-        eventAction: 'click',
-        eventLabel: event.target.href
-    });
-    };
-</script>
