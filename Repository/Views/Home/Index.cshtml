@@ -20,21 +20,23 @@
     <div class="col-md-6">
         <h2>Get more rools</h2>
         <p>Check some tools related with software artifacts management</p>
-        <p><a target="_blank" onClick="handleOutboundLinkClicks" 
-              class="btn btn-default" href="https://assessment-tools.ca.com/tools/continuous-delivery-tools/en/artefact-repository-management">Learn more &raquo;</a></p>
+        <p>
+            <a target="_blank" onClick="handleOutboundLinkClicks"
+               class="btn btn-default" href="https://assessment-tools.ca.com/tools/continuous-delivery-tools/en/artefact-repository-management">Learn more &raquo;</a>
+        </p>
     </div>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161429060-1"></script>
     <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag() { dataLayer.push(arguments); }
-            gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-            gtag('config', 'UA-161429060-1');
-            var dimensionValue = 'ButtonClick';
-             ga('send', 'event', 'category', 'action', {
-                'dimension1': 'ButtonClick'
-            });
-            
+        gtag('config', 'UA-161429060-1');
+        var dimensionValue = 'ButtonClick';
+        ga('send', 'event', 'category', 'action', {
+            'dimension1': 'ButtonClick'
+        });
+
     </script>
     <script>
         function handleOutboundLinkClicks() {
@@ -42,6 +44,19 @@
                 'dimension1': 'ButtonClick'
             });
         };
+    </script>
+    <script type="text/javascript">
+        var gaJsHost = (("https:" == document.location.protocol) ?
+        "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src=’" + gaJsHost + "googleanalytics.com/ga.js’ type=’text/javascript’%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+        try{
+        var pageTracker = _gat._getTracker("UA-161429060-1");
+        pageTracker._trackPageview("/404.html?page=" +
+        document.location.pathname + document.location.search +
+        "&from=" + document.referrer);
+        } catch(err) {}
     </script>
     <script type="text/javascript" src="@Url.Content("/Scripts/analytic.js")"></script>
 </div>
