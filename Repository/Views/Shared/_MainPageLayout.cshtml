@@ -16,6 +16,9 @@
         //ga('send', 'pageview');
         ga('myTracker.set', 'page', '/index/Test');
         ga('myTracker.send', 'pageview');
+        var pageTracker = _gat._getTracker('UA-161429060-1');
+            pageTracker._trackPageview();
+            pageTracker._setVar('index');
     </script>
     <script type='text/javascript'>
         var gaJsHost = (('https:' == document.location.protocol) ?
