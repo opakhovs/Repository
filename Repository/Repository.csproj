@@ -153,6 +153,7 @@
     <Compile Include="Controllers\ArtifactsController.cs" />
     <Compile Include="Controllers\ArtTypesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NonFoundController.cs" />
     <Compile Include="Controllers\ProblemDomainsController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\RatingsController.cs" />
@@ -418,11 +419,13 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Static\Pages\NonFound.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\User\Models\" />
     <Folder Include="obj\Debug\TempPE\" />
+    <Folder Include="Views\NonFound\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
