@@ -153,7 +153,7 @@
     <Compile Include="Controllers\ArtifactsController.cs" />
     <Compile Include="Controllers\ArtTypesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\Error.cs" />
     <Compile Include="Controllers\ProblemDomainsController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\RatingsController.cs" />
