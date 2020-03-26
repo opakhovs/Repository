@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Repository.Controllers
 {
-    public class Error : Controller
+    public class ErrorController : Controller
     {
         // GET: NonFound
         public ActionResult NotFound()
